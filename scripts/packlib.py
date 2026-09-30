@@ -22,6 +22,8 @@ KINDS = ("prompts",)
 LOCALES = ("zh-CN", "zh-TW", "en")
 MAX_ITEMS = 200
 MAX_FILE_BYTES = 256 * 1024
+MAX_PACK_BYTES = 4 * 1024 * 1024  # all files of a pack together, unpacked
+MAX_ARCHIVE_BYTES = 2 * 1024 * 1024  # the .zip itself
 MAX_TAGS = 8
 MAX_TAG_LEN = 24
 
@@ -152,6 +154,7 @@ def load_pack(directory: Path) -> Dict[str, Any]:
     if manifest["id"] != directory.name:
         raise PackError(f"{directory.name}: directory name must equal the pack id {manifest['id']!r}")
     listed = set()
+    total = 0
     for item in manifest["items"]:
         path = directory / item["file"]
         if path.is_symlink() or not path.is_file():
@@ -161,6 +164,9 @@ def load_pack(directory: Path) -> Dict[str, Any]:
         if sha256_hex(data) != item["sha256"]:
             raise PackError(f"{directory.name}/{item['file']}: sha256 does not match pack.json")
         listed.add(item["file"])
+        total += len(data)
+    if total > MAX_PACK_BYTES:
+        raise PackError(f"{directory.name}: files add up to more than {MAX_PACK_BYTES} bytes")
     for found in sorted(directory.rglob("*")):
         relative = found.relative_to(directory).as_posix()
         if found.is_symlink():
@@ -235,6 +241,8 @@ def build_index(packs_dir: Path, out_dir: Path, base_url: str, generated_at: str
     for directory in sorted(p for p in packs_dir.iterdir() if p.is_dir()):
         manifest = load_pack(directory)
         archive = build_zip(directory)
+        if len(archive) > MAX_ARCHIVE_BYTES:
+            raise PackError(f"{manifest['id']}: archive is larger than {MAX_ARCHIVE_BYTES} bytes")
         filename = f"{manifest['id']}-{manifest['version']}.zip"
         (out_dir / filename).write_bytes(archive)
         entries.append(

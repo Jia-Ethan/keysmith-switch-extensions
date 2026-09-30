@@ -1,0 +1,84 @@
+# Publishes a signed snapshot of every pack: index.json, index.json.sig and the archives.
+# Nothing here signs anything until the protected `production` environment is approved.
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Snapshot tag, YYYY.MM.DD.N (for example 2026.09.30.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check the tag
+        shell: bash
+        env:
+          TAG: ${{ inputs.tag }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$TAG" =~ ^[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+$ ]] || { echo "tag must look like 2026.09.30.1" >&2; exit 1; }
+          if gh release view "$TAG" >/dev/null 2>&1; then echo "release $TAG already exists" >&2; exit 1; fi
+      - run: python3 -m unittest discover tests
+      - name: Build
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          python3 scripts/build.py --out dist \
+            --base-url "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}" \
+            --generated-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: extensions-dist
+          path: dist
+          retention-days: 3
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: extensions-dist
+          path: dist
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Sign the index
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.EXT_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.EXT_SIGNING_PASSWORD }}
+        run: |
+          set -euo pipefail
+          [[ -n "$TAURI_SIGNING_PRIVATE_KEY" ]] || { echo "EXT_SIGNING_PRIVATE_KEY is not set in the production environment" >&2; exit 1; }
+          npx --yes @tauri-apps/cli@2.11.4 signer sign dist/index.json
+          test -s dist/index.json.sig
+      - name: Publish
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Extensions $TAG" \
+            --notes "Signed snapshot of the extension packs. Apps read index.json and verify index.json.sig." \
+            --latest

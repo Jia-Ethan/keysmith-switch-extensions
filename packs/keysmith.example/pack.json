@@ -1,0 +1,49 @@
+{
+  "description": {
+    "en": "A sample that shows the pack format. Real packs are published separately.",
+    "zh-CN": "用来演示拓展包格式的示例，不建议长期使用；正式内容会另外发布。"
+  },
+  "id": "keysmith.example",
+  "items": [
+    {
+      "file": "prompts/careful-reviewer.md",
+      "id": "careful-reviewer",
+      "sha256": "26f5c02af50699c2ff4f15b36e93217340943e0fd3748f1281a71758e9e73ffa",
+      "tags": [
+        "示例",
+        "代码"
+      ],
+      "title": {
+        "en": "Careful code review",
+        "zh-CN": "谨慎的代码审查"
+      },
+      "tool": "claude"
+    },
+    {
+      "file": "prompts/plain-writing.md",
+      "id": "plain-writing",
+      "sha256": "820d2490998a0bda17ed6cb69e4dba6368f7fab39224a4f66659da266747da3a",
+      "tags": [
+        "示例",
+        "写作"
+      ],
+      "title": {
+        "en": "Plain writing",
+        "zh-CN": "平实的写作"
+      },
+      "tool": "codex"
+    }
+  ],
+  "kind": "prompts",
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "Example pack",
+    "zh-CN": "示例包"
+  },
+  "schema": 1,
+  "tools": [
+    "claude",
+    "codex"
+  ],
+  "version": "0.1.0"
+}

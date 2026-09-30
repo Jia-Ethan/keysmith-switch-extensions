@@ -2,8 +2,8 @@
 
 Standard library only, so CI and contributors need nothing installed. The rules
 here are the ones SPEC.md states; the app enforces the same rules again when it
-installs a pack, because a signature proves who published a pack, not that the
-pack is well formed.
+installs a pack, because where a pack came from says nothing about whether it is
+well formed.
 """
 
 from __future__ import annotations
@@ -44,7 +44,7 @@ def sha256_hex(data: bytes) -> str:
 
 
 def canonical_json(value: Any) -> bytes:
-    """The exact bytes that get signed: sorted keys, two-space indent, trailing newline."""
+    """Stable bytes: sorted keys, two-space indent, trailing newline."""
     return (json.dumps(value, sort_keys=True, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
@@ -269,7 +269,7 @@ def build_index(packs_dir: Path, out_dir: Path, base_url: str, generated_at: str
 
 
 def verify_release(out_dir: Path) -> Dict[str, Any]:
-    """Check a built directory the way a downloading app would, minus the signature."""
+    """Check a built directory the way a downloading app would."""
     out_dir = Path(out_dir)
     try:
         index = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))

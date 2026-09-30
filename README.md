@@ -3,7 +3,7 @@
 [Keysmith Switch](https://github.com/Jia-Ethan/keysmith-switch) 的拓展包仓库。拓展包是一组**内容**（目前是提示词），可以在不更新 App 本身的情况下单独更新。
 
 - 拓展包只包含数据，**没有任何可执行代码**。适配器仍随 App 发布。
-- 每次发布是一个带签名的快照；App 用内置公钥验证，验证通过才显示为“官方”。
+- 每次发布是一个快照（清单加压缩包）；App 只信任写死的官方地址，来自那里才显示为“官方”。没有签名，所以 App 不会自动部署任何拓展包里的内容。
 - App 默认离线；只有用户打开“拓展”后才会联网读取这个仓库。
 
 格式见 [SPEC.md](SPEC.md)。
@@ -36,29 +36,14 @@ python3 scripts/build.py --out dist
 
 ## 发布
 
-发布由 `release` 工作流完成，只能从 `main` 运行，并需要 `production` 环境的审批。
+发布由 `release` 工作流完成，只能从 `main` 运行。
 
 1. 合并 PR 到 `main`。
 2. Actions → release → Run workflow，填快照标签 `YYYY.MM.DD.N`（例如 `2026.09.30.1`）。
-3. 工作流先打包，再停在审批；审批通过后才用签名密钥签名并创建 Release。
+3. 工作流先打包并核对，再创建 Release。
 4. App 读取的地址：`https://github.com/Jia-Ethan/keysmith-switch-extensions/releases/latest/download/index.json`
 
-## 首次设置（仓库管理员）
-
-签名密钥由管理员自己生成，**私钥不要发给任何人，也不要放进仓库**。
-
-1. 生成拓展包专用密钥（不要复用 App 更新的密钥）：
-
-   ```bash
-   npx @tauri-apps/cli@2.11.4 signer generate -w ~/.keysmith-extensions-signing.key
-   ```
-
-   设一个密码，妥善保存私钥文件和密码。输出的公钥交给 App 内置。
-2. 仓库 Settings → Environments → 新建 `production`，勾选 Required reviewers，加上自己。
-3. 在 `production` 环境里添加两个 Secret：
-   - `EXT_SIGNING_PRIVATE_KEY`：私钥文件的全部内容
-   - `EXT_SIGNING_PASSWORD`：私钥密码
-4. 建议给 `main` 开分支保护，要求 PR 和 CI 通过。
+建议（可选）：仓库 Settings → Environments → `production`，勾选 Required reviewers 加上自己，这样每次发布都需要你点一下批准。不设置也能发布，但任何有写权限的账号都能发布。
 
 ## 许可
 

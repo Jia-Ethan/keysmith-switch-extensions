@@ -118,6 +118,14 @@ class PackTest(unittest.TestCase):
         directory = make_pack(self.tmp, pack_id="large", files={"prompts/one.md": big, "prompts/two.md": "x"})
         self.assertRejected(directory, "larger")
 
+    def test_a_pack_cannot_be_larger_than_the_app_will_unpack(self):
+        # Sixteen files under the per-file limit, together over the pack limit.
+        chunk = "a" * (250 * 1024)
+        files = {f"prompts/f{i:02d}.md": chunk + str(i) for i in range(17)}
+        directory = make_pack(self.tmp, pack_id="heavy", files=files, mutate=lambda m: m.update(tools=["claude", "codex"]))
+        # make_pack alternates tools; every item must belong to the pack's tools.
+        self.assertRejected(directory, "add up")
+
     def test_unlisted_files_and_links_are_rejected(self):
         directory = make_pack(self.tmp, pack_id="extra")
         (directory / "prompts/hidden.md").write_text("payload", encoding="utf-8")

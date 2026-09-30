@@ -1,5 +1,7 @@
-# Publishes a signed snapshot of every pack: index.json, index.json.sig and the archives.
-# Nothing here signs anything until the protected `production` environment is approved.
+# Publishes a snapshot of every pack: index.json and the archives.
+# The publish job runs in the `production` environment. Give that environment a required
+# reviewer (Settings > Environments) so publishing needs a person's approval; without one
+# anyone with write access can publish.
 name: release
 
 on:
@@ -56,19 +58,6 @@ jobs:
         with:
           name: extensions-dist
           path: dist
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Sign the index
-        shell: bash
-        env:
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.EXT_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.EXT_SIGNING_PASSWORD }}
-        run: |
-          set -euo pipefail
-          [[ -n "$TAURI_SIGNING_PRIVATE_KEY" ]] || { echo "EXT_SIGNING_PRIVATE_KEY is not set in the production environment" >&2; exit 1; }
-          npx --yes @tauri-apps/cli@2.11.4 signer sign dist/index.json
-          test -s dist/index.json.sig
       - name: Publish
         shell: bash
         env:
@@ -80,5 +69,5 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
             --title "Extensions $TAG" \
-            --notes "Signed snapshot of the extension packs. Apps read index.json and verify index.json.sig." \
+            --notes "Snapshot of the extension packs. Apps read index.json and check each archive against it." \
             --latest

@@ -25,23 +25,3 @@ jobs:
         run: python3 scripts/check.py
       - name: Build and verify the release directory
         run: python3 scripts/build.py --out dist
-
-  signing:
-    # Proves the signing step works with a throwaway key, so a release does not find out first.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: python3 scripts/build.py --out dist
-      - name: Sign with an ephemeral key
-        shell: bash
-        run: |
-          set -euo pipefail
-          npx --yes @tauri-apps/cli@2.11.4 signer generate --ci -p "ci-only" -w "$RUNNER_TEMP/ephemeral.key"
-          npx --yes @tauri-apps/cli@2.11.4 signer sign -f "$RUNNER_TEMP/ephemeral.key" -p "ci-only" dist/index.json
-          test -s dist/index.json.sig

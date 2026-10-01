@@ -1,0 +1,66 @@
+{
+  "pack_id": "keysmith.core",
+  "pack_version": "0.1.0",
+  "prompts": [
+    {
+      "commit": "cfcd96eb727c324ee8649170c43aaa632ff53cb3",
+      "inputs": [
+        {
+          "path": "examples/gpt-overlay.md",
+          "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a"
+        }
+      ],
+      "output": "prompts/codex-keysmith.md",
+      "repository": "https://github.com/Jia-Ethan/codex-keysmith",
+      "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a",
+      "tool": "codex",
+      "transform": "copy"
+    },
+    {
+      "commit": "977fa2f867ef7b91c02cabfb83509b7279b5285e",
+      "inputs": [
+        {
+          "path": "examples/claude-project-rules.md",
+          "sha256": "d15aa6b25ee39b672abe79e215d9731bd083b48b57c4a5aad2e07a37dc09c94e"
+        },
+        {
+          "path": "examples/claude-append-prompt.md",
+          "sha256": "e41a0f41d607d792ccfef233e768df1ce5c565b6e21b07f62bad8a90d119e76b"
+        }
+      ],
+      "output": "prompts/claude-keysmith.md",
+      "repository": "https://github.com/Jia-Ethan/claude-keysmith",
+      "sha256": "b6e4ae27e7a5f2b1c564710f1bad6f5c22a9367aed09c889d1be3ce27f5438e2",
+      "tool": "claude",
+      "transform": "claude-main-with-append"
+    },
+    {
+      "commit": "6f09878a1ed540808fc21dbf70edebc382dc8740",
+      "inputs": [
+        {
+          "path": "examples/grok-unrestricted.md",
+          "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9"
+        }
+      ],
+      "output": "prompts/grok-keysmith.md",
+      "repository": "https://github.com/Jia-Ethan/grok-keysmith",
+      "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9",
+      "tool": "grok",
+      "transform": "copy"
+    },
+    {
+      "commit": "8cbcfc9d5e097ed0f8edcfbc107037967dc693d9",
+      "inputs": [
+        {
+          "path": "examples/system-role.md",
+          "sha256": "30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1"
+        }
+      ],
+      "output": "prompts/zcode-keysmith.md",
+      "repository": "https://github.com/Jia-Ethan/zcode-keysmith",
+      "sha256": "30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1",
+      "tool": "zcode",
+      "transform": "copy"
+    }
+  ]
+}

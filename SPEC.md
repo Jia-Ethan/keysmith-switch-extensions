@@ -18,10 +18,13 @@
 ## 2. 拓展包（`packs/<id>/`）
 
 ```
-packs/keysmith.example/
+packs/keysmith.core/
   pack.json
   prompts/
-    careful-reviewer.md
+    codex-keysmith.md
+    claude-keysmith.md
+    grok-keysmith.md
+    zcode-keysmith.md
 ```
 
 `pack.json`：
@@ -36,6 +39,9 @@ packs/keysmith.example/
 | `name`、`description` | 对象，键为 `zh-CN`、`zh-TW`、`en`，至少一种语言，不能为空 |
 | `tools` | 适用的 Agent：`claude`、`codex`、`grok`、`zcode` 中的若干个，不重复 |
 | `items` | 1 到 200 条，见下 |
+| `license` | 可选对象：`spdx` 为许可标识，`notices` 为完整版权与许可通知的字符串数组；随 `pack.json` 分发，不属于提示词正文 |
+
+`license` 是 schema 1 的可选描述元数据。现有 App 忽略不认识的字段；增加此字段不改变安装、工具适配或来源信任规则。
 
 `items[]`：
 
@@ -60,17 +66,17 @@ packs/keysmith.example/
   "generated_at": "2026-09-30T00:00:00Z",
   "packs": [
     {
-      "id": "keysmith.example",
+      "id": "keysmith.core",
       "version": "0.1.0",
       "min_app_version": "0.2.5",
       "kind": "prompts",
-      "name": { "zh-CN": "示例包" },
-      "description": { "zh-CN": "…" },
-      "tools": ["claude", "codex"],
-      "item_count": 2,
-      "url": "https://github.com/…/releases/download/2026.09.30.1/keysmith.example-0.1.0.zip",
+      "name": { "zh-CN": "Keysmith 官方提示词" },
+      "description": { "zh-CN": "四个 Keysmith 子项目的官方提示词" },
+      "tools": ["codex", "claude", "grok", "zcode"],
+      "item_count": 4,
+      "url": "https://github.com/…/releases/download/2026.09.30.1/keysmith.core-0.1.0.zip",
       "sha256": "…",
-      "size": 1312
+      "size": 19339
     }
   ]
 }

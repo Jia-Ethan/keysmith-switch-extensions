@@ -1,0 +1,92 @@
+{
+  "description": {
+    "en": "Main prompts from Codex, Claude, Grok and ZCode Keysmith. The Claude prompt combines project rules and append content.",
+    "zh-CN": "来自 Codex、Claude、Grok、ZCode 四个 Keysmith 项目的主提示词；Claude 包含主规则与 append 合成正文。",
+    "zh-TW": "來自 Codex、Claude、Grok、ZCode 四個 Keysmith 專案的主提示詞；Claude 包含主規則與 append 合成正文。"
+  },
+  "id": "keysmith.core",
+  "items": [
+    {
+      "file": "prompts/codex-keysmith.md",
+      "id": "codex-keysmith",
+      "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a",
+      "tags": [
+        "Keysmith",
+        "Codex"
+      ],
+      "title": {
+        "en": "Codex Keysmith official prompt",
+        "zh-CN": "Codex Keysmith 官方提示词",
+        "zh-TW": "Codex Keysmith 官方提示詞"
+      },
+      "tool": "codex"
+    },
+    {
+      "file": "prompts/claude-keysmith.md",
+      "id": "claude-keysmith",
+      "sha256": "b6e4ae27e7a5f2b1c564710f1bad6f5c22a9367aed09c889d1be3ce27f5438e2",
+      "tags": [
+        "Keysmith",
+        "Claude"
+      ],
+      "title": {
+        "en": "Claude Keysmith official prompt",
+        "zh-CN": "Claude Keysmith 官方提示词",
+        "zh-TW": "Claude Keysmith 官方提示詞"
+      },
+      "tool": "claude"
+    },
+    {
+      "file": "prompts/grok-keysmith.md",
+      "id": "grok-keysmith",
+      "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9",
+      "tags": [
+        "Keysmith",
+        "Grok"
+      ],
+      "title": {
+        "en": "Grok Keysmith official prompt",
+        "zh-CN": "Grok Keysmith 官方提示词",
+        "zh-TW": "Grok Keysmith 官方提示詞"
+      },
+      "tool": "grok"
+    },
+    {
+      "file": "prompts/zcode-keysmith.md",
+      "id": "zcode-keysmith",
+      "sha256": "30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1",
+      "tags": [
+        "Keysmith",
+        "ZCode"
+      ],
+      "title": {
+        "en": "ZCode Keysmith official prompt",
+        "zh-CN": "ZCode Keysmith 官方提示词",
+        "zh-TW": "ZCode Keysmith 官方提示詞"
+      },
+      "tool": "zcode"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+      "MIT License\n\nCopyright (c) 2026 Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "Keysmith official prompts",
+    "zh-CN": "Keysmith 官方提示词",
+    "zh-TW": "Keysmith 官方提示詞"
+  },
+  "schema": 1,
+  "tools": [
+    "codex",
+    "claude",
+    "grok",
+    "zcode"
+  ],
+  "version": "0.1.0"
+}

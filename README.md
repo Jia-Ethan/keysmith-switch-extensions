@@ -21,7 +21,7 @@
   <img src="docs/images/extensions-light.png" width="820" alt="Keysmith Switch 中的拓展包页面" />
 </picture>
 
-<sub>Keysmith Switch 里的“拓展”页</sub>
+<sub>Keysmith Switch 旧版“拓展”页界面示意；当前包内容见下方官方提示词列表。</sub>
 
 </div>
 
@@ -49,7 +49,20 @@ tests/                          格式测试
 .github/workflows/              校验与发布
 ```
 
-`packs/keysmith.example` 只是演示格式的示例包。
+## 📄 官方提示词
+
+`packs/keysmith.core` 是正式内容包，包含四个 Keysmith 子项目的官方提示词：
+
+| 条目 | 工具 | 来源 |
+| --- | --- | --- |
+| Codex Keysmith | Codex | 默认的 `gpt-overlay.md` |
+| Claude Keysmith | Claude | `claude-project-rules.md` 与 `claude-append-prompt.md` 合成正文 |
+| Grok Keysmith | Grok | 默认的 `grok-unrestricted.md` |
+| ZCode Keysmith | ZCode | v0.3.3 发布提交中的 `system-role.md` |
+
+正文保留原项目的人名、`[P]` 和工作区上下文。Claude 的合成只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和合成规则见 [官方提示词来源](docs/prompt-sources.md)。
+
+新版发布清单以该包替换旧 `keysmith.example` 演示包。已有用户的旧示例仍留在本地提示词库，可自行删除；刷新新清单后扩展页不再显示旧包的卸载入口。历史提交和旧 Release 保留。安装新包不会自动部署。
 
 ## ✍️ 添加或修改一个包
 
@@ -86,4 +99,6 @@ python3 scripts/build.py --out dist
 
 ## 📄 许可
 
-尚未选择许可证。在选定之前，仓库内容保留所有权利；示例包仅用于演示格式。
+`keysmith.core` 中迁入的四份提示词沿用原项目的 MIT 许可。Codex、Claude、Grok 的版权为 © 2026 Jia-Ethan，ZCode 的版权为 © 2026 Ethan；完整通知保存在包的 `pack.json` 的 `license.notices` 中，随 ZIP 分发。详见 [来源与许可记录](docs/prompt-sources.md)。
+
+其他仓库内容尚未选择许可证，在选定之前保留所有权利。

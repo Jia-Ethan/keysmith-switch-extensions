@@ -24,7 +24,7 @@
     {
       "file": "prompts/claude-keysmith.md",
       "id": "claude-keysmith",
-      "sha256": "b6e4ae27e7a5f2b1c564710f1bad6f5c22a9367aed09c889d1be3ce27f5438e2",
+      "sha256": "d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601",
       "tags": [
         "Keysmith",
         "Claude"
@@ -88,5 +88,5 @@
     "grok",
     "zcode"
   ],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

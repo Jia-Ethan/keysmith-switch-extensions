@@ -1,6 +1,6 @@
 {
   "pack_id": "keysmith.core",
-  "pack_version": "0.1.0",
+  "pack_version": "0.2.0",
   "prompts": [
     {
       "commit": "cfcd96eb727c324ee8649170c43aaa632ff53cb3",
@@ -17,20 +17,20 @@
       "transform": "copy"
     },
     {
-      "commit": "977fa2f867ef7b91c02cabfb83509b7279b5285e",
+      "commit": "b14f924c629ed98235211b5ba0744c26da891b0b",
       "inputs": [
         {
           "path": "examples/claude-project-rules.md",
-          "sha256": "d15aa6b25ee39b672abe79e215d9731bd083b48b57c4a5aad2e07a37dc09c94e"
+          "sha256": "ccb8e4c8b0f697a758d79c095126b9c6ff685a11908bc9f573730dba6b9d43ca"
         },
         {
           "path": "examples/claude-append-prompt.md",
-          "sha256": "e41a0f41d607d792ccfef233e768df1ce5c565b6e21b07f62bad8a90d119e76b"
+          "sha256": "28b73a5351a098eadc096883def5ad1918820786192c5822aae6a76b689ad23d"
         }
       ],
       "output": "prompts/claude-keysmith.md",
       "repository": "https://github.com/Jia-Ethan/claude-keysmith",
-      "sha256": "b6e4ae27e7a5f2b1c564710f1bad6f5c22a9367aed09c889d1be3ce27f5438e2",
+      "sha256": "d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601",
       "tool": "claude",
       "transform": "claude-main-with-append"
     },

@@ -55,14 +55,14 @@ tests/                          格式测试
 
 | 包 id | 名称 | 工具 | 来源 |
 | --- | --- | --- | --- |
-| `keysmith.codex` | Codex Keysmith | Codex | 默认的 `gpt-overlay.md`（0.2.0） |
-| `keysmith.claude` | Claude Keysmith | Claude | `claude-project-rules.md` 与 `claude-append-prompt.md` 合成正文（0.2.0） |
-| `keysmith.grok` | Grok Keysmith | Grok | 默认的 `grok-unrestricted.md`（0.2.0） |
+| `keysmith.codex` | Codex Keysmith | Codex | 默认 `gpt-overlay.md` 的 lab/craft recast（0.2.1） |
+| `keysmith.claude` | Claude Keysmith | Claude | `claude-project-rules.md` + append 的 lab/craft recast（0.2.1） |
+| `keysmith.grok` | Grok Keysmith | Grok | 默认 `grok-unrestricted.md` 的 lab/craft recast（0.2.1） |
 | `keysmith.zcode` | ZCode Keysmith | ZCode | v0.3.3 `system-role.md` 的 lab/craft recast（0.2.1） |
 
 这四个包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
 
-正文保留原项目的人名、`[P]` 和工作区上下文。Claude 的合成只导入一条正文，不额外启用 CLI 的 append 通道。ZCode 0.2.1 是 v0.3.3 Pier 脸的 lab/craft recast，不是源文件字节复制。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
+正文保留原项目的人名、`[P]` 和工作区上下文。0.2.1 起四条都是 lab/craft recast，不是源文件字节复制；各包保留该模型已测过的脸。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
 
 新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
 

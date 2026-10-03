@@ -9,7 +9,7 @@
     {
       "file": "prompts/claude-keysmith.md",
       "id": "claude-keysmith",
-      "sha256": "d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601",
+      "sha256": "bb3ce45cd3a118ccf33f115b7266e07ef4a7175804f40811d7a7df2d54a4f599",
       "tags": [
         "Keysmith",
         "Claude"
@@ -39,5 +39,5 @@
   "tools": [
     "claude"
   ],
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

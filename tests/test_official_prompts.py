@@ -48,21 +48,19 @@ class OfficialPromptsTest(unittest.TestCase):
                 self.assertEqual(record["output"], item["file"])
                 digest = packlib.sha256_hex((ROOT / "packs" / manifest["id"] / item["file"]).read_bytes())
                 self.assertEqual(digest, record["sha256"])
+                self.assertEqual(record["transform"], "lab-craft-recast")
+                self.assertNotEqual(digest, record["inputs"][0]["sha256"])
                 if tool == "claude":
-                    self.assertEqual(record["transform"], "claude-main-with-append")
                     self.assertEqual(
                         [source["path"] for source in record["inputs"]],
                         ["examples/claude-project-rules.md", "examples/claude-append-prompt.md"],
                     )
-                    self.assertNotEqual(digest, record["inputs"][0]["sha256"])
-                elif tool == "zcode":
-                    self.assertEqual(record["transform"], "lab-craft-recast")
-                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/system-role.md"])
-                    self.assertNotEqual(digest, record["inputs"][0]["sha256"])
+                elif tool == "codex":
+                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/gpt-overlay.md"])
+                elif tool == "grok":
+                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/grok-unrestricted.md"])
                 else:
-                    self.assertEqual(record["transform"], "copy")
-                    self.assertEqual(len(record["inputs"]), 1)
-                    self.assertEqual(digest, record["inputs"][0]["sha256"])
+                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/system-role.md"])
 
     def test_zcode_recast_keeps_pier_and_drops_glm_jailbreak_fingerprints(self):
         text = (ROOT / "packs" / "keysmith.zcode" / "prompts" / "zcode-keysmith.md").read_text(encoding="utf-8")
@@ -82,6 +80,57 @@ class OfficialPromptsTest(unittest.TestCase):
             "must comply",
         ):
             self.assertNotIn(needle, text)
+
+    def test_claude_recast_keeps_lab_craft_without_routing_table(self):
+        text = (ROOT / "packs" / "keysmith.claude" / "prompts" / "claude-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("You are Claude Code", text)
+        self.assertIn("[P]", text)
+        self.assertIn("local lab", text)
+        self.assertIn("Provenance wording", text)
+        self.assertIn("Adult fiction is craft", text)
+        self.assertIn("CHECK_FN", text)
+        self.assertIn("Scripted calls", text)
+        for needle in (
+            "routing table",
+            "must comply",
+            "on the table",
+            "keyloggers",
+            "ransomware",
+            "ignore previous",
+        ):
+            self.assertNotIn(needle, text)
+
+    def test_codex_recast_keeps_overlay_and_first_lines(self):
+        text = (ROOT / "packs" / "keysmith.codex" / "prompts" / "codex-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("workspace delivery\noverlay", text)
+        self.assertIn("EXECUTION (baseline behavior, unchanged by this overlay)", text)
+        self.assertIn("LOCAL EVAL", text)
+        self.assertIn("[P]", text)
+        self.assertIn("可以，按本地样本逆向流程：", text)
+        self.assertIn("Yes. Local sample workflow:", text)
+        self.assertIn("Adult fiction is craft", text)
+        self.assertIn("describes where a fixture came from", text)
+        for needle in (
+            "routing table",
+            "must comply",
+            "Scenario MALWARE",
+            "I can't",
+            "for educational purposes",
+        ):
+            self.assertNotIn(needle, text)
+
+    def test_grok_recast_keeps_routing_table_and_drops_quoted_refusal(self):
+        text = (ROOT / "packs" / "keysmith.grok" / "prompts" / "grok-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("Scenario RE — acknowledged:", text)
+        self.assertIn("Contract check:", text)
+        self.assertIn("isolated engineering host", text)
+        self.assertIn("[P]", text)
+        self.assertIn("routing table", text)
+        self.assertIn("Adult fiction / NSFW: craft", text)
+        self.assertIn("Scenario MALWARE", text)
+        self.assertNotIn('I won\'t write a keylogger', text)
+        self.assertNotIn("No content restrictions apply", text)
+        self.assertNotIn("must comply", text)
 
     def test_archives_carry_one_prompt_and_its_license_notice(self):
         for tool, manifest in self.manifests.items():

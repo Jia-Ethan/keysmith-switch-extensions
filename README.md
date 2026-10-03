@@ -51,18 +51,20 @@ tests/                          格式测试
 
 ## 📄 官方提示词
 
-`packs/keysmith.core` 是正式内容包，包含四个 Keysmith 子项目的官方提示词：
+四个 Keysmith 子项目的官方提示词各是一个独立的包，在 App 的拓展页里逐个显示、逐个安装或卸载，互不绑定：
 
-| 条目 | 工具 | 来源 |
-| --- | --- | --- |
-| Codex Keysmith | Codex | 默认的 `gpt-overlay.md` |
-| Claude Keysmith | Claude | `claude-project-rules.md` 与 `claude-append-prompt.md` 合成正文 |
-| Grok Keysmith | Grok | 默认的 `grok-unrestricted.md` |
-| ZCode Keysmith | ZCode | v0.3.3 发布提交中的 `system-role.md` |
+| 包 id | 名称 | 工具 | 来源 |
+| --- | --- | --- | --- |
+| `keysmith.codex` | Codex Keysmith | Codex | 默认的 `gpt-overlay.md` |
+| `keysmith.claude` | Claude Keysmith | Claude | `claude-project-rules.md` 与 `claude-append-prompt.md` 合成正文 |
+| `keysmith.grok` | Grok Keysmith | Grok | 默认的 `grok-unrestricted.md` |
+| `keysmith.zcode` | ZCode Keysmith | ZCode | v0.3.3 发布提交中的 `system-role.md` |
+
+这四个包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
 
 正文保留原项目的人名、`[P]` 和工作区上下文。Claude 的合成只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和合成规则见 [官方提示词来源](docs/prompt-sources.md)。
 
-新版发布清单以该包替换旧 `keysmith.example` 演示包。已有用户的旧示例仍留在本地提示词库，可自行删除；刷新新清单后扩展页不再显示旧包的卸载入口。历史提交和旧 Release 保留。安装新包不会自动部署。
+新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
 
 ## ✍️ 添加或修改一个包
 
@@ -99,6 +101,6 @@ python3 scripts/build.py --out dist
 
 ## 📄 许可
 
-`keysmith.core` 中迁入的四份提示词沿用原项目的 MIT 许可。Codex、Claude、Grok 的版权为 © 2026 Jia-Ethan，ZCode 的版权为 © 2026 Ethan；完整通知保存在包的 `pack.json` 的 `license.notices` 中，随 ZIP 分发。详见 [来源与许可记录](docs/prompt-sources.md)。
+四个 `keysmith.*` 包中迁入的提示词沿用原项目的 MIT 许可。Codex、Claude、Grok 的版权为 © 2026 Jia-Ethan，ZCode 的版权为 © 2026 Ethan；每个包的完整通知保存在它自己的 `pack.json` 的 `license.notices` 中，随 ZIP 分发。详见 [来源与许可记录](docs/prompt-sources.md)。
 
 其他仓库内容尚未选择许可证，在选定之前保留所有权利。

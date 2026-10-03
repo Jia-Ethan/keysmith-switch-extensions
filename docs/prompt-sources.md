@@ -1,6 +1,6 @@
 # 官方提示词来源
 
-`keysmith.core` 0.2.0 收录四个 Keysmith 项目的已提交提示词。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对包内正文；更新正文时须同时更新来源记录和包版本。
+`keysmith.codex`、`keysmith.claude`、`keysmith.grok`、`keysmith.zcode`（均为 0.2.0，每个包一条提示词）收录四个 Keysmith 项目的已提交提示词。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对包内正文；更新正文时须同时更新来源记录和包版本。
 
 ## 固定输入
 
@@ -30,17 +30,17 @@ Claude 合成一条。转换与原项目的 `strip_markdown_h1()` 及正文拼�
 
 | 文件 | SHA-256 |
 | --- | --- |
-| prompts/codex-keysmith.md | `7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a` |
-| prompts/claude-keysmith.md | `d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601` |
-| prompts/grok-keysmith.md | `3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9` |
-| prompts/zcode-keysmith.md | `30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1` |
+| keysmith.codex / prompts/codex-keysmith.md | `7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a` |
+| keysmith.claude / prompts/claude-keysmith.md | `d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601` |
+| keysmith.grok / prompts/grok-keysmith.md | `3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9` |
+| keysmith.zcode / prompts/zcode-keysmith.md | `30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1` |
 
 ## 许可
 
-四个源项目的提示词使用 MIT 许可。Codex、Claude、Grok 的版权声明为 `Copyright (c) 2026 Jia-Ethan`；ZCode 为 `Copyright (c) 2026 Ethan`。两份完整通知保存在包的 `pack.json` 的 `license.notices` 中，随发布 ZIP 一起分发，不混入提示词正文。
+四个源项目的提示词使用 MIT 许可。Codex、Claude、Grok 的版权声明为 `Copyright (c) 2026 Jia-Ethan`；ZCode 为 `Copyright (c) 2026 Ethan`。每个包把自己那份完整通知保存在 `pack.json` 的 `license.notices` 中，随发布 ZIP 一起分发，不混入提示词正文。
 
-## 旧示例下架
+## 拆分与旧包下架
 
-新版发布清单移除 `keysmith.example`，替换为 `keysmith.core`。历史提交与旧 Release 保留。仅合并 PR 不改变线上清单，须发布新快照才会生效。
+0.2.0 起每个提示词是自己的包，原先捆绑四条的 `keysmith.core`（0.1.0、0.2.0 曾发布）和更早的 `keysmith.example` 不再出现在新清单里。历史提交与旧 Release 保留。仅合并 PR 不改变线上清单，须发布新快照才会生效。
 
-已有用户的旧示例仍留在本地提示词库，可自行删除；当前 App 不会自动清理下架包，刷新新清单后扩展页也不再显示旧包的卸载入口。安装新包只导入官方正文，不自动部署。
+已装过 `keysmith.core` 的用户，提示词库里的条目原样保留。安装新包时，库里已有正文相同的条目会被直接关联，不产生重复；若用户改过某条，则另存为新条目。当前 App 不会自动清理下架包，刷新新清单后扩展页也不再显示 `keysmith.core` 的卸载入口。安装新包只导入官方正文，不自动部署。

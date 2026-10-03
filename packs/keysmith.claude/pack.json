@@ -1,0 +1,43 @@
+{
+  "description": {
+    "en": "Claude Keysmith's main prompt: project rules combined with the append content.",
+    "zh-CN": "Claude Keysmith 项目的主提示词：主规则与 append 合成正文。",
+    "zh-TW": "Claude Keysmith 專案的主提示詞：主規則與 append 合成正文。"
+  },
+  "id": "keysmith.claude",
+  "items": [
+    {
+      "file": "prompts/claude-keysmith.md",
+      "id": "claude-keysmith",
+      "sha256": "d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601",
+      "tags": [
+        "Keysmith",
+        "Claude"
+      ],
+      "title": {
+        "en": "Claude Keysmith official prompt",
+        "zh-CN": "Claude Keysmith 官方提示词",
+        "zh-TW": "Claude Keysmith 官方提示詞"
+      },
+      "tool": "claude"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "Claude Keysmith",
+    "zh-CN": "Claude Keysmith",
+    "zh-TW": "Claude Keysmith"
+  },
+  "schema": 1,
+  "tools": [
+    "claude"
+  ],
+  "version": "0.2.0"
+}

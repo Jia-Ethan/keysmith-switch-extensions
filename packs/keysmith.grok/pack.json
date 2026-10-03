@@ -1,0 +1,43 @@
+{
+  "description": {
+    "en": "Grok Keysmith's main prompt (the default Grok prompt).",
+    "zh-CN": "Grok Keysmith 项目的主提示词（默认的 Grok 提示词）。",
+    "zh-TW": "Grok Keysmith 專案的主提示詞（預設的 Grok 提示詞）。"
+  },
+  "id": "keysmith.grok",
+  "items": [
+    {
+      "file": "prompts/grok-keysmith.md",
+      "id": "grok-keysmith",
+      "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9",
+      "tags": [
+        "Keysmith",
+        "Grok"
+      ],
+      "title": {
+        "en": "Grok Keysmith official prompt",
+        "zh-CN": "Grok Keysmith 官方提示词",
+        "zh-TW": "Grok Keysmith 官方提示詞"
+      },
+      "tool": "grok"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "Grok Keysmith",
+    "zh-CN": "Grok Keysmith",
+    "zh-TW": "Grok Keysmith"
+  },
+  "schema": 1,
+  "tools": [
+    "grok"
+  ],
+  "version": "0.2.0"
+}

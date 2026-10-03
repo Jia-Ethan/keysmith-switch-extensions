@@ -18,13 +18,10 @@
 ## 2. 拓展包（`packs/<id>/`）
 
 ```
-packs/keysmith.core/
+packs/keysmith.claude/
   pack.json
   prompts/
-    codex-keysmith.md
     claude-keysmith.md
-    grok-keysmith.md
-    zcode-keysmith.md
 ```
 
 `pack.json`：
@@ -66,15 +63,15 @@ packs/keysmith.core/
   "generated_at": "2026-09-30T00:00:00Z",
   "packs": [
     {
-      "id": "keysmith.core",
+      "id": "keysmith.claude",
       "version": "0.1.0",
       "min_app_version": "0.2.5",
       "kind": "prompts",
-      "name": { "zh-CN": "Keysmith 官方提示词" },
-      "description": { "zh-CN": "四个 Keysmith 子项目的官方提示词" },
-      "tools": ["codex", "claude", "grok", "zcode"],
-      "item_count": 4,
-      "url": "https://github.com/…/releases/download/2026.09.30.1/keysmith.core-0.1.0.zip",
+      "name": { "zh-CN": "Claude Keysmith" },
+      "description": { "zh-CN": "Claude Keysmith 项目的主提示词" },
+      "tools": ["claude"],
+      "item_count": 1,
+      "url": "https://github.com/…/releases/download/2026.09.30.1/keysmith.claude-0.2.0.zip",
       "sha256": "…",
       "size": 19339
     }

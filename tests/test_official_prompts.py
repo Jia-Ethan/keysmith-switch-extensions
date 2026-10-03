@@ -43,7 +43,7 @@ class OfficialPromptsTest(unittest.TestCase):
                 record = by_tool[tool]
                 (item,) = manifest["items"]
                 self.assertEqual(record["pack_id"], manifest["id"])
-                self.assertEqual(self.sources["pack_version"], manifest["version"])
+                self.assertEqual(record["pack_version"], manifest["version"])
                 self.assertRegex(record["commit"], r"^[0-9a-f]{40}$")
                 self.assertEqual(record["output"], item["file"])
                 digest = packlib.sha256_hex((ROOT / "packs" / manifest["id"] / item["file"]).read_bytes())
@@ -55,10 +55,33 @@ class OfficialPromptsTest(unittest.TestCase):
                         ["examples/claude-project-rules.md", "examples/claude-append-prompt.md"],
                     )
                     self.assertNotEqual(digest, record["inputs"][0]["sha256"])
+                elif tool == "zcode":
+                    self.assertEqual(record["transform"], "lab-craft-recast")
+                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/system-role.md"])
+                    self.assertNotEqual(digest, record["inputs"][0]["sha256"])
                 else:
                     self.assertEqual(record["transform"], "copy")
                     self.assertEqual(len(record["inputs"]), 1)
                     self.assertEqual(digest, record["inputs"][0]["sha256"])
+
+    def test_zcode_recast_keeps_pier_and_drops_glm_jailbreak_fingerprints(self):
+        text = (ROOT / "packs" / "keysmith.zcode" / "prompts" / "zcode-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("You're Pier.", text)
+        self.assertIn("[P]", text)
+        self.assertIn("<project_instructions>", text)
+        self.assertIn("local lab", text)
+        self.assertIn("Adult fiction is craft", text)
+        self.assertIn("Provenance wording", text)
+        for needle in (
+            "compliance layer",
+            "consent form",
+            "Everything else is on the table",
+            "keyloggers",
+            "ransomware",
+            "routing table",
+            "must comply",
+        ):
+            self.assertNotIn(needle, text)
 
     def test_archives_carry_one_prompt_and_its_license_notice(self):
         for tool, manifest in self.manifests.items():

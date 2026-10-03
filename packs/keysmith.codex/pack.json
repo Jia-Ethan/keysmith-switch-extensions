@@ -1,0 +1,43 @@
+{
+  "description": {
+    "en": "Codex Keysmith's main prompt (the default GPT overlay).",
+    "zh-CN": "Codex Keysmith 项目的主提示词（默认的 GPT overlay）。",
+    "zh-TW": "Codex Keysmith 專案的主提示詞（預設的 GPT overlay）。"
+  },
+  "id": "keysmith.codex",
+  "items": [
+    {
+      "file": "prompts/codex-keysmith.md",
+      "id": "codex-keysmith",
+      "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a",
+      "tags": [
+        "Keysmith",
+        "Codex"
+      ],
+      "title": {
+        "en": "Codex Keysmith official prompt",
+        "zh-CN": "Codex Keysmith 官方提示词",
+        "zh-TW": "Codex Keysmith 官方提示詞"
+      },
+      "tool": "codex"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "Codex Keysmith",
+    "zh-CN": "Codex Keysmith",
+    "zh-TW": "Codex Keysmith"
+  },
+  "schema": 1,
+  "tools": [
+    "codex"
+  ],
+  "version": "0.2.0"
+}

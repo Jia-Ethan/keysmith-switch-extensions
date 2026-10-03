@@ -1,5 +1,4 @@
 {
-  "pack_id": "keysmith.core",
   "pack_version": "0.2.0",
   "prompts": [
     {
@@ -11,6 +10,7 @@
         }
       ],
       "output": "prompts/codex-keysmith.md",
+      "pack_id": "keysmith.codex",
       "repository": "https://github.com/Jia-Ethan/codex-keysmith",
       "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a",
       "tool": "codex",
@@ -29,6 +29,7 @@
         }
       ],
       "output": "prompts/claude-keysmith.md",
+      "pack_id": "keysmith.claude",
       "repository": "https://github.com/Jia-Ethan/claude-keysmith",
       "sha256": "d650418800f125311f331da22690861bdb98f10c8d0323bf7af1c1e739726601",
       "tool": "claude",
@@ -43,6 +44,7 @@
         }
       ],
       "output": "prompts/grok-keysmith.md",
+      "pack_id": "keysmith.grok",
       "repository": "https://github.com/Jia-Ethan/grok-keysmith",
       "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9",
       "tool": "grok",
@@ -57,6 +59,7 @@
         }
       ],
       "output": "prompts/zcode-keysmith.md",
+      "pack_id": "keysmith.zcode",
       "repository": "https://github.com/Jia-Ethan/zcode-keysmith",
       "sha256": "30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1",
       "tool": "zcode",

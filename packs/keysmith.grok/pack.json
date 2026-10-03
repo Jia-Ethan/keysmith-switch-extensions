@@ -9,7 +9,7 @@
     {
       "file": "prompts/grok-keysmith.md",
       "id": "grok-keysmith",
-      "sha256": "3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9",
+      "sha256": "6494e205e3aaf7b7d1c3615219e3166611c3f960da82debe817bb8337e144524",
       "tags": [
         "Keysmith",
         "Grok"
@@ -39,5 +39,5 @@
   "tools": [
     "grok"
   ],
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

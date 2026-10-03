@@ -9,7 +9,7 @@
     {
       "file": "prompts/codex-keysmith.md",
       "id": "codex-keysmith",
-      "sha256": "7d306ae69d831dad21ed54252b563e173877eeebc0bc92e81970849a7ab8ac4a",
+      "sha256": "a26ad8acd7b1b48eae5fb9892f6ad9a123fcf66960d9c6a5269d69028010556b",
       "tags": [
         "Keysmith",
         "Codex"
@@ -39,5 +39,5 @@
   "tools": [
     "codex"
   ],
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

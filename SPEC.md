@@ -64,7 +64,7 @@ packs/keysmith.claude/
   "packs": [
     {
       "id": "keysmith.claude",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "min_app_version": "0.2.5",
       "kind": "prompts",
       "name": { "zh-CN": "Claude Keysmith" },

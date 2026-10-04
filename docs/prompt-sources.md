@@ -1,6 +1,6 @@
 # 官方提示词来源
 
-`keysmith.codex`、`keysmith.claude`、`keysmith.grok` 与 `keysmith.zcode` 均为 0.2.1，各收录一条提示词。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对包内正文；更新正文时须同时更新来源记录和该包版本。包版本按包独立递增，不必四条同号。
+`keysmith.codex`、`keysmith.claude`、`keysmith.grok` 与 `keysmith.zcode` 均为 0.2.1，各收录一条提示词。`keysmith.codex-register` 是 0.1.0 的 GPT 注册机专用包，不替换 Codex Keysmith。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对四条主线正文；更新正文时须同时更新来源记录和该包版本。包版本按包独立递增，不必同号。
 
 ## 固定输入
 
@@ -41,6 +41,8 @@ ZCode 0.2.1 以 v0.3.3 发布提交 `8cbcfc9` 的 `examples/system-role.md` 为�
 | keysmith.claude / prompts/claude-keysmith.md | `bb3ce45cd3a118ccf33f115b7266e07ef4a7175804f40811d7a7df2d54a4f599` |
 | keysmith.grok / prompts/grok-keysmith.md | `6494e205e3aaf7b7d1c3615219e3166611c3f960da82debe817bb8337e144524` |
 | keysmith.zcode / prompts/zcode-keysmith.md | `8e823d71a484af85601ac36cae515c989672b4e2a38cc283b56bdda93f4efd2f` |
+
+`keysmith.codex-register` 不进 `prompt-sources.json`：它不是产品树源文件的 recast，而是以 Codex 0.2.1 overlay 为底、按 GPT 5.6+ 实测把注册客户端走 KEYGEN/AUTH 字段的专用包。overlay 不点名具体站点或校验品牌。用户提示词是已测能交的未点名 collector/register 夹具。哈希由 `scripts/seal.py` 写入 `pack.json`。
 
 ## 许可
 

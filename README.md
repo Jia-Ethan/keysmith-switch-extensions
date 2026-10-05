@@ -63,6 +63,9 @@ tests/                          格式测试
 
 这些包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
 
+> [!NOTE]
+> 拓展页卡片**不展示包摘要**：只显示名称、官方角标、条数、大小、版本和安装状态。这适用于所有包（已上架的和以后发布的）。`pack.json` 的 `description` 仍是必填字段，但不进卡片；见 [SPEC.md](SPEC.md#拓展页展示规则)。
+
 正文保留原项目的人名、`[P]` 和工作区上下文。0.2.1 起四条都是 lab/craft recast，不是源文件字节复制；各包保留该模型已测过的脸。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
 
 新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
@@ -82,6 +85,9 @@ python3 scripts/build.py --out dist
 > [!IMPORTANT]
 > 改了内容就必须递增 `version`：同一个 `id` 和 `version` 的内容不能变。
 
+> [!NOTE]
+> 写包、审 PR 时记住：`description` 不会出现在 App 拓展页卡片上，不要为了卡片去写或改它。
+
 完整字段规则、大小上限和清单格式见 [**SPEC.md**](SPEC.md)。
 
 ## 🚀 发布
@@ -90,7 +96,7 @@ python3 scripts/build.py --out dist
 
 1. 合并 PR 到 `main`。
 2. Actions → release → Run workflow，填写快照标签 `YYYY.MM.DD.N`（例如 `2026.09.30.1`）。
-3. 工作流先打包并核对，再创建 Release。
+3. 工作流先打包并核对，再创建 Release。发布说明里不要承诺包摘要会在拓展页显示。
 4. App 读取的地址：
 
    ```

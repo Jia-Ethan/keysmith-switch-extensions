@@ -33,10 +33,19 @@ packs/keysmith.claude/
 | `version` | 三段式 `x.y.z` |
 | `min_app_version` | 三段式；低于此版本的 App 不显示、不安装 |
 | `kind` | 目前只有 `prompts` |
-| `name`、`description` | 对象，键为 `zh-CN`、`zh-TW`、`en`，至少一种语言，不能为空 |
+| `name`、`description` | 对象，键为 `zh-CN`、`zh-TW`、`en`，至少一种语言，不能为空。`description` 仍是 schema 1 的必填字段，但**不进入 App 拓展页卡片**，见下方“拓展页展示规则” |
 | `tools` | 适用的 Agent：`claude`、`codex`、`grok`、`zcode` 中的若干个，不重复 |
 | `items` | 1 到 200 条，见下 |
 | `license` | 可选对象：`spdx` 为许可标识，`notices` 为完整版权与许可通知的字符串数组；随 `pack.json` 分发，不属于提示词正文 |
+
+### 拓展页展示规则
+
+**拓展页卡片不展示包摘要（`description`）。** 卡片只显示名称、官方角标、条数、大小、版本和安装状态。这条规则对已上架、已安装和以后发布的所有包一律适用，不针对某一个包。
+
+- 写包：`description` 照常填写（schema 仍要求），但它不会出现在卡片上，不要指望靠它向用户传达信息，也不要为了卡片去改写它。
+- 审 PR：新增或修改包时，不接受“让摘要在卡片上显示”的改动；不要求为了界面去清空或改写已有的 `description`。
+- 发快照：发布说明里不承诺摘要展示；快照对应的 App 版本必须遵守本规则。
+- 清单 `index.json` 仍携带 `description`，这是格式的一部分，与展示无关。
 
 `license` 是 schema 1 的可选描述元数据。现有 App 忽略不认识的字段；增加此字段不改变安装、工具适配或来源信任规则。
 

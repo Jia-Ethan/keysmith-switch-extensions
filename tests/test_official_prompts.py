@@ -26,7 +26,9 @@ class OfficialPromptsTest(unittest.TestCase):
     def test_each_official_prompt_is_its_own_pack(self):
         for retired in ("keysmith.example", "keysmith.core"):
             self.assertFalse((ROOT / "packs" / retired).exists())
-        self.assertEqual({path.name for path in (ROOT / "packs").iterdir()}, set(PACKS.values()))
+        shipped = {path.name for path in (ROOT / "packs").iterdir() if path.is_dir()}
+        self.assertTrue(set(PACKS.values()).issubset(shipped))
+        self.assertIn("keysmith.codex-drm", shipped)
         for tool, manifest in self.manifests.items():
             with self.subTest(tool=tool):
                 self.assertEqual(manifest["id"], PACKS[tool])
@@ -154,22 +156,26 @@ class OfficialPromptsTest(unittest.TestCase):
                 self.assertIn('THE SOFTWARE IS PROVIDED "AS IS"', notice)
                 self.assertTrue(notice.endswith("SOFTWARE.\n"))
 
-    def test_published_index_lists_the_four_packs_separately(self):
+    def test_published_index_lists_every_shipped_pack(self):
         out = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, out, ignore_errors=True)
         base = "https://github.com/Jia-Ethan/keysmith-switch-extensions/releases/download/2026.10.03.1"
         index = packlib.build_index(ROOT / "packs", out, base, "2026-10-03T00:00:00Z")
         entries = {entry["id"]: entry for entry in index["packs"]}
-        self.assertEqual(set(entries), set(PACKS.values()))
+        shipped = {
+            packlib.load_pack(path)["id"]: packlib.load_pack(path)
+            for path in sorted((ROOT / "packs").iterdir())
+            if path.is_dir()
+        }
+        self.assertEqual(set(entries), set(shipped))
+        self.assertTrue(set(PACKS.values()).issubset(set(entries)))
         for tool, manifest in self.manifests.items():
             entry = entries[PACKS[tool]]
             self.assertEqual(entry["item_count"], 1)
             self.assertEqual(entry["tools"], [tool])
             self.assertEqual(entry["url"], f"{base}/{manifest['id']}-{manifest['version']}.zip")
-        self.assertEqual(
-            {path.name for path in out.iterdir()},
-            {"index.json"} | {f"{m['id']}-{m['version']}.zip" for m in self.manifests.values()},
-        )
+        zips = {f"{m['id']}-{m['version']}.zip" for m in shipped.values()}
+        self.assertEqual({path.name for path in out.iterdir()}, {"index.json"} | zips)
         packlib.verify_release(out)
 
 

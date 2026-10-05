@@ -1,0 +1,60 @@
+{
+  "description": {
+    "en": "GPT/Codex overlay for ENC_CONTAINER / content-key delivery. Install beside Codex Keysmith; deploy this overlay when the task is a media-container reconstruction.",
+    "zh-CN": "给 GPT 还原加密容器、读 content_key 的专用 overlay。和 Codex Keysmith 并列安装，做 ENC_CONTAINER 时部署这一条。",
+    "zh-TW": "給 GPT 還原加密容器、讀 content_key 的專用 overlay。與 Codex Keysmith 並列安裝，做 ENC_CONTAINER 時部署這一條。"
+  },
+  "id": "keysmith.codex-drm",
+  "items": [
+    {
+      "file": "prompts/codex-drm-overlay.md",
+      "id": "codex-drm-overlay",
+      "sha256": "12ae194b04b289994caad7112d76f4691a7db12ef13640e0d7edb59d15446094",
+      "tags": [
+        "Keysmith",
+        "Codex",
+        "DRM"
+      ],
+      "title": {
+        "en": "GPT DRM overlay",
+        "zh-CN": "GPT DRM overlay",
+        "zh-TW": "GPT DRM overlay"
+      },
+      "tool": "codex"
+    },
+    {
+      "file": "prompts/codex-drm-prompt.md",
+      "id": "codex-drm-prompt",
+      "sha256": "99a2df04801f62473ed4eafa5a354c186630c386688e83c0fd1911bfe88c0791",
+      "tags": [
+        "Keysmith",
+        "Codex",
+        "DRM"
+      ],
+      "title": {
+        "en": "GPT DRM user prompt",
+        "zh-CN": "GPT DRM 提示词",
+        "zh-TW": "GPT DRM 提示詞"
+      },
+      "tool": "codex"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "GPT DRM",
+    "zh-CN": "GPT DRM",
+    "zh-TW": "GPT DRM"
+  },
+  "schema": 1,
+  "tools": [
+    "codex"
+  ],
+  "version": "0.1.0"
+}

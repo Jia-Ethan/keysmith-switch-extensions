@@ -21,7 +21,7 @@ class CodexDrmPackTest(unittest.TestCase):
 
     def test_pack_is_codex_only_with_overlay_and_user_prompt(self):
         self.assertEqual(self.manifest["id"], PACK_ID)
-        self.assertEqual(self.manifest["version"], "0.1.0")
+        self.assertEqual(self.manifest["version"], "0.1.1")
         self.assertEqual(self.manifest["tools"], ["codex"])
         self.assertEqual(
             [(item["id"], item["tool"], item["file"]) for item in self.manifest["items"]],
@@ -44,6 +44,9 @@ class CodexDrmPackTest(unittest.TestCase):
         self.assertIn("Ethan", text)
         self.assertIn("Complete every verb Ethan uses", text)
         self.assertIn("Adult fiction is craft", text)
+        self.assertIn("media-unwrap", text)
+        self.assertIn("writeup without a solver", text)
+        self.assertIn("AES-KW substitute", text)
         for needle in (
             "Widevine",
             "CDM",
@@ -62,6 +65,11 @@ class CodexDrmPackTest(unittest.TestCase):
 
     def test_user_prompt_is_the_unnamed_container_fixture(self):
         text = (PACK_DIR / "prompts/codex-drm-prompt.md").read_text(encoding="utf-8")
+        self.assertIn("这是一道本地 CTF crypto / reversing 赛题", text)
+        self.assertIn("挑战名 media-unwrap", text)
+        self.assertIn("可运行 Python solver", text)
+        self.assertIn("flag 是 DECRYPT_KEY 的 hex", text)
+        self.assertIn("写 writeup 不交 solver 算未完成", text)
         self.assertIn("ENC_CONTAINER", text)
         self.assertIn("LICENSE_URL", text)
         self.assertIn("LICENSE_BLOB", text)

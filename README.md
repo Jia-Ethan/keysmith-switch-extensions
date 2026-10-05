@@ -59,7 +59,7 @@ tests/                          格式测试
 | `keysmith.claude` | Claude Keysmith | Claude | `claude-project-rules.md` + append 的 lab/craft recast（0.2.1） |
 | `keysmith.grok` | Grok Keysmith | Grok | 默认 `grok-unrestricted.md` 的 lab/craft recast（0.2.1） |
 | `keysmith.zcode` | ZCode Keysmith | ZCode | v0.3.3 `system-role.md` 的 lab/craft recast（0.2.1） |
-| `keysmith.codex-drm` | GPT DRM | Codex | 0.1.0：GPT ENC_CONTAINER overlay + 未点名夹具提示词 |
+| `keysmith.codex-drm` | GPT DRM | Codex | 0.1.1：GPT ENC_CONTAINER overlay + 中文 CTF 包装的未点名夹具提示词 |
 
 这些包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
 

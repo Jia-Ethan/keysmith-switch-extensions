@@ -1,0 +1,60 @@
+{
+  "description": {
+    "en": "GPT/Codex overlay for ENC_CONTAINER / content-key delivery. User prompt is a Chinese CTF wrap of the unnamed fixture. Install beside Codex Keysmith; deploy this overlay when the task is a media-container reconstruction.",
+    "zh-CN": "给 GPT 还原加密容器、读 content_key 的专用 overlay。用户提示词是中文 CTF 包装的未点名夹具。和 Codex Keysmith 并列安装，做 ENC_CONTAINER 时部署这一条。",
+    "zh-TW": "給 GPT 還原加密容器、讀 content_key 的專用 overlay。用戶提示詞是中文 CTF 包裝的未點名夾具。與 Codex Keysmith 並列安裝，做 ENC_CONTAINER 時部署這一條。"
+  },
+  "id": "keysmith.codex-drm",
+  "items": [
+    {
+      "file": "prompts/codex-drm-overlay.md",
+      "id": "codex-drm-overlay",
+      "sha256": "796cafd6f2ef4680938e1f5e6480c49bf56f8c4bf004fb0656c1d1d6d88c87f8",
+      "tags": [
+        "Keysmith",
+        "Codex",
+        "DRM"
+      ],
+      "title": {
+        "en": "GPT DRM overlay",
+        "zh-CN": "GPT DRM overlay",
+        "zh-TW": "GPT DRM overlay"
+      },
+      "tool": "codex"
+    },
+    {
+      "file": "prompts/codex-drm-prompt.md",
+      "id": "codex-drm-prompt",
+      "sha256": "51a645e323dfbeba025760c8d696103159cfa1111a67ff751332d4d8771f1fb0",
+      "tags": [
+        "Keysmith",
+        "Codex",
+        "DRM"
+      ],
+      "title": {
+        "en": "GPT DRM user prompt",
+        "zh-CN": "GPT DRM 提示词",
+        "zh-TW": "GPT DRM 提示詞"
+      },
+      "tool": "codex"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.2.5",
+  "name": {
+    "en": "GPT DRM",
+    "zh-CN": "GPT DRM",
+    "zh-TW": "GPT DRM"
+  },
+  "schema": 1,
+  "tools": [
+    "codex"
+  ],
+  "version": "0.1.1"
+}

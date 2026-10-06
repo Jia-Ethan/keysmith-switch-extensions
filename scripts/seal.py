@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fill in the sha256 of every listed prompt file, then validate the pack.
+"""Fill in the sha256 of every listed file (prompts, or a rule pack's rules.json), then validate the pack.
 
     python3 scripts/seal.py packs/my.pack
 """
@@ -24,6 +24,10 @@ def main() -> int:
     for item in manifest.get("items", []):
         packlib.safe_relative_path(item["file"])
         item["sha256"] = packlib.sha256_hex((directory / item["file"]).read_bytes())
+    rules = manifest.get("rules")
+    if isinstance(rules, dict) and isinstance(rules.get("file"), str):
+        packlib.safe_relative_path(rules["file"])
+        rules["sha256"] = packlib.sha256_hex((directory / rules["file"]).read_bytes())
     manifest_path.write_bytes(packlib.canonical_json(manifest))
     try:
         packlib.load_pack(directory)

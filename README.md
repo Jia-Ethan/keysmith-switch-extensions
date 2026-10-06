@@ -43,7 +43,8 @@
 
 ```
 packs/<包 id>/pack.json         描述文件
-packs/<包 id>/prompts/*.md      提示词正文
+packs/<包 id>/prompts/*.md      提示词正文（提示词包）
+packs/<包 id>/rules.json        替换规则（规则包，见 SPEC.md §2.1）
 scripts/                        校验、打包、封装
 tests/                          格式测试
 .github/workflows/              校验与发布
@@ -70,10 +71,16 @@ tests/                          格式测试
 
 新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
 
+## 🔁 规则包
+
+除了提示词包，仓库也可以发布**输入替换规则包**（`kind: "rules"`）。用户安装后，规则表会出现在 App 的「输入替换」页，用于在发给 Codex 模型前按字面替换文字。安装前 App 会列出全部规则；已启用的规则表有更新时，要用户确认后才切换。
+
+目前官方快照里没有规则包。格式见 [SPEC.md §2.1](SPEC.md#21-规则包kind-rules)。
+
 ## ✍️ 添加或修改一个包
 
 ```bash
-# 1. 在 packs/<id>/ 下写 pack.json 和 prompts/*.md（sha256 可以先留空）
+# 1. 在 packs/<id>/ 下写 pack.json 和 prompts/*.md（规则包写 rules.json；sha256 可以先留空）
 # 2. 自动填入哈希并校验
 python3 scripts/seal.py packs/<id>
 # 3. 全部检查

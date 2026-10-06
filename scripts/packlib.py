@@ -18,7 +18,15 @@ from typing import Any, Dict, List, Optional
 
 SCHEMA = 1
 TOOLS = ("claude", "codex", "grok", "zcode")
-KINDS = ("prompts",)
+KINDS = ("prompts", "rules")
+# Input rewrite runs for Codex only; a rule pack names exactly this tool.
+RULE_TOOLS = ["codex"]
+RULES_FILE = "rules.json"
+# The first app version that understands rule packs.
+RULES_MIN_APP = (0, 4, 0)
+MAX_RULES = 1000
+MAX_FROM_CHARS = 200
+MAX_TO_CHARS = 2000
 LOCALES = ("zh-CN", "zh-TW", "en")
 MAX_ITEMS = 200
 MAX_FILE_BYTES = 256 * 1024
@@ -93,6 +101,8 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
     tools = manifest.get("tools")
     if not isinstance(tools, list) or not tools or len(set(tools)) != len(tools) or any(t not in TOOLS for t in tools):
         raise PackError(f"{where}: tools must be a non-empty list of unique names from {list(TOOLS)}")
+    if manifest["kind"] == "rules":
+        return _validate_rules_manifest(manifest, tools, where)
     items = manifest.get("items")
     if not isinstance(items, list) or not items or len(items) > MAX_ITEMS:
         raise PackError(f"{where}: items must be a list of 1 to {MAX_ITEMS} entries")
@@ -129,6 +139,71 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
     return manifest
 
 
+def _validate_rules_manifest(manifest: Dict[str, Any], tools: List[str], where: str) -> Dict[str, Any]:
+    if tools != RULE_TOOLS:
+        raise PackError(f"{where}: a rule pack's tools must be exactly {RULE_TOOLS}")
+    if semver_tuple(manifest["min_app_version"]) < RULES_MIN_APP:
+        raise PackError(f"{where}: a rule pack needs min_app_version {'.'.join(map(str, RULES_MIN_APP))} or later")
+    if "items" in manifest:
+        raise PackError(f"{where}: a rule pack has no items")
+    rules = manifest.get("rules")
+    if not isinstance(rules, dict) or set(rules) != {"file", "sha256"}:
+        raise PackError(f"{where}: rules must be an object with file and sha256")
+    if rules["file"] != RULES_FILE:
+        raise PackError(f"{where}: rules.file must be {RULES_FILE!r}")
+    if not isinstance(rules["sha256"], str) or not SHA256.match(rules["sha256"]):
+        raise PackError(f"{where}: rules.sha256 must be 64 lowercase hex characters")
+    return manifest
+
+
+def manifest_files(manifest: Dict[str, Any]) -> List[str]:
+    """The files a pack's manifest lists, besides pack.json."""
+    if manifest["kind"] == "rules":
+        return [manifest["rules"]["file"]]
+    return sorted(item["file"] for item in manifest["items"])
+
+
+def _is_control(char: str) -> bool:
+    # Mirrors Rust's char::is_control: the Cc category.
+    code = ord(char)
+    return code < 0x20 or 0x7F <= code <= 0x9F
+
+
+def check_rules_bytes(data: bytes, label: str) -> List[Dict[str, str]]:
+    """The rules file: {"rules": [{"from", "to"}]}, checked the way the app checks rules people type."""
+    if len(data) > MAX_FILE_BYTES:
+        raise PackError(f"{label}: file is larger than {MAX_FILE_BYTES} bytes")
+    try:
+        value = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise PackError(f"{label}: not valid UTF-8 JSON ({error})")
+    if not isinstance(value, dict) or set(value) != {"rules"}:
+        raise PackError(f"{label}: must be an object with only a rules list")
+    rules = value["rules"]
+    if not isinstance(rules, list) or not rules or len(rules) > MAX_RULES:
+        raise PackError(f"{label}: rules must be a list of 1 to {MAX_RULES} entries")
+    seen = set()
+    for index, rule in enumerate(rules):
+        where = f"{label}: rules[{index}]"
+        if not isinstance(rule, dict) or set(rule) != {"from", "to"}:
+            raise PackError(f"{where}: must be an object with only from and to")
+        source, target = rule["from"], rule["to"]
+        if not isinstance(source, str) or not isinstance(target, str):
+            raise PackError(f"{where}: from and to must be strings")
+        if not source:
+            raise PackError(f"{where}: from must not be empty")
+        if len(source) > MAX_FROM_CHARS:
+            raise PackError(f"{where}: from is longer than {MAX_FROM_CHARS} characters")
+        if len(target) > MAX_TO_CHARS:
+            raise PackError(f"{where}: to is longer than {MAX_TO_CHARS} characters")
+        if any(_is_control(char) for char in source):
+            raise PackError(f"{where}: from contains a control character")
+        if source in seen:
+            raise PackError(f"{where}: duplicate from {source!r}")
+        seen.add(source)
+    return rules
+
+
 def _check_prompt_bytes(data: bytes, label: str) -> None:
     if not data.strip():
         raise PackError(f"{label}: file is empty")
@@ -155,7 +230,17 @@ def load_pack(directory: Path) -> Dict[str, Any]:
         raise PackError(f"{directory.name}: directory name must equal the pack id {manifest['id']!r}")
     listed = set()
     total = 0
-    for item in manifest["items"]:
+    if manifest["kind"] == "rules":
+        name = manifest["rules"]["file"]
+        path = directory / name
+        if path.is_symlink() or not path.is_file():
+            raise PackError(f"{directory.name}: {name} is missing or not a regular file")
+        data = path.read_bytes()
+        check_rules_bytes(data, f"{directory.name}/{name}")
+        if sha256_hex(data) != manifest["rules"]["sha256"]:
+            raise PackError(f"{directory.name}/{name}: sha256 does not match pack.json")
+        listed.add(name)
+    for item in manifest.get("items", []):
         path = directory / item["file"]
         if path.is_symlink() or not path.is_file():
             raise PackError(f"{directory.name}: {item['file']} is missing or not a regular file")
@@ -182,7 +267,7 @@ def build_zip(directory: Path) -> bytes:
     """A deterministic archive: same pack, same bytes, so hashes are reproducible."""
     directory = Path(directory)
     manifest = load_pack(directory)
-    names = ["pack.json"] + sorted(item["file"] for item in manifest["items"])
+    names = ["pack.json"] + manifest_files(manifest)
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name in names:
@@ -218,16 +303,21 @@ def check_zip(data: bytes, expected: Optional[Dict[str, Any]] = None) -> Dict[st
         except (UnicodeDecodeError, json.JSONDecodeError) as error:
             raise PackError(f"pack.json is not valid JSON ({error})")
         validate_manifest(manifest, "pack.json")
-        listed = {item["file"] for item in manifest["items"]}
+        listed = set(manifest_files(manifest))
         if set(names) != listed | {"pack.json"}:
             raise PackError("archive entries do not match pack.json")
-        for item in manifest["items"]:
+        if manifest["kind"] == "rules":
+            data_rules = archive.read(RULES_FILE)
+            check_rules_bytes(data_rules, RULES_FILE)
+            if sha256_hex(data_rules) != manifest["rules"]["sha256"]:
+                raise PackError(f"{RULES_FILE}: sha256 does not match pack.json")
+        for item in manifest.get("items", []):
             data_item = archive.read(item["file"])
             _check_prompt_bytes(data_item, item["file"])
             if sha256_hex(data_item) != item["sha256"]:
                 raise PackError(f"{item['file']}: sha256 does not match pack.json")
     if expected is not None:
-        for key in ("id", "version"):
+        for key in ("id", "version", "kind"):
             if manifest[key] != expected.get(key):
                 raise PackError(f"archive {key} {manifest[key]!r} differs from the index ({expected.get(key)!r})")
     return manifest
@@ -254,7 +344,7 @@ def build_index(packs_dir: Path, out_dir: Path, base_url: str, generated_at: str
                 "name": manifest["name"],
                 "description": manifest["description"],
                 "tools": manifest["tools"],
-                "item_count": len(manifest["items"]),
+                "item_count": len(manifest.get("items", [])),
                 "url": f"{base_url.rstrip('/')}/{filename}",
                 "sha256": sha256_hex(archive),
                 "size": len(archive),

@@ -16,7 +16,8 @@ def main() -> int:
     for directory in sorted(p for p in packs.iterdir() if p.is_dir()):
         try:
             manifest = packlib.load_pack(directory)
-            print(f"ok    {manifest['id']} {manifest['version']} ({len(manifest['items'])} items)")
+            count = f"{len(manifest['items'])} items" if manifest["kind"] == "prompts" else "rules"
+            print(f"ok    {manifest['id']} {manifest['version']} ({count})")
         except packlib.PackError as error:
             failed = True
             print(f"FAIL  {error}", file=sys.stderr)

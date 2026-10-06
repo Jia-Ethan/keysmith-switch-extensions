@@ -19,11 +19,12 @@ from typing import Any, Dict, List, Optional
 SCHEMA = 1
 TOOLS = ("claude", "codex", "grok", "zcode")
 KINDS = ("prompts", "rules")
-# Input rewrite runs for Codex only; a rule pack names exactly this tool.
-RULE_TOOLS = ["codex"]
 RULES_FILE = "rules.json"
-# The first app version that understands rule packs.
+# The first app version that understands rule packs (for Codex only).
 RULES_MIN_APP = (0, 4, 0)
+# The first app version that rewrites for agents other than Codex. A rule pack whose tools
+# are anything but exactly ["codex"] needs it; App 0.4.0 does not list such a pack.
+RULES_ANY_AGENT_MIN_APP = (0, 5, 0)
 MAX_RULES = 1000
 MAX_FROM_CHARS = 200
 MAX_TO_CHARS = 2000
@@ -140,10 +141,10 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
 
 
 def _validate_rules_manifest(manifest: Dict[str, Any], tools: List[str], where: str) -> Dict[str, Any]:
-    if tools != RULE_TOOLS:
-        raise PackError(f"{where}: a rule pack's tools must be exactly {RULE_TOOLS}")
-    if semver_tuple(manifest["min_app_version"]) < RULES_MIN_APP:
-        raise PackError(f"{where}: a rule pack needs min_app_version {'.'.join(map(str, RULES_MIN_APP))} or later")
+    needs = RULES_MIN_APP if tools == ["codex"] else RULES_ANY_AGENT_MIN_APP
+    if semver_tuple(manifest["min_app_version"]) < needs:
+        what = "a rule pack" if tools == ["codex"] else "a rule pack for agents other than codex"
+        raise PackError(f"{where}: {what} needs min_app_version {'.'.join(map(str, needs))} or later")
     if "items" in manifest:
         raise PackError(f"{where}: a rule pack has no items")
     rules = manifest.get("rules")

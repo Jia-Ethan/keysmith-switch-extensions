@@ -63,8 +63,10 @@ class RulePackTest(unittest.TestCase):
 
     def test_manifest_rules(self):
         cases = {
-            "other tool": (lambda m: m.update(tools=["claude"]), "exactly"),
-            "two tools": (lambda m: m.update(tools=["codex", "claude"]), "exactly"),
+            "other agent on an old app": (lambda m: m.update(tools=["claude"]), "other than codex"),
+            "two agents on an old app": (lambda m: m.update(tools=["codex", "claude"]), "other than codex"),
+            "unknown agent": (lambda m: m.update(tools=["cursor"], min_app_version="0.5.0"), "tools"),
+            "repeated agent": (lambda m: m.update(tools=["claude", "claude"], min_app_version="0.5.0"), "tools"),
             "has items": (lambda m: m.update(items=[]), "no items"),
             "wrong file": (lambda m: m["rules"].update(file="other.json"), "rules.file"),
             "bad sha": (lambda m: m["rules"].update(sha256="x"), "sha256"),
@@ -75,6 +77,16 @@ class RulePackTest(unittest.TestCase):
             with self.subTest(name):
                 root = self.tmp / name.replace(" ", "-")
                 self.rejected(make_rule_pack(root, mutate=mutate), fragment)
+
+    def test_rule_pack_for_other_agents(self):
+        for tools in (["claude"], ["claude", "zcode"], ["claude", "codex", "grok", "zcode"]):
+            with self.subTest(tools=tools):
+                packs = self.tmp / "-".join(tools) / "packs"
+                make_rule_pack(packs, mutate=lambda m: m.update(tools=tools, min_app_version="0.5.0"))
+                out = self.tmp / "-".join(tools) / "dist"
+                index = packlib.build_index(packs, out, "https://example.test/dl", "2026-10-06T00:00:00Z")
+                self.assertEqual(index["packs"][0]["tools"], tools)
+                packlib.verify_release(out)
 
     def test_rule_contents_match_the_app(self):
         cases = {

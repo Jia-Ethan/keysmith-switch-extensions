@@ -66,7 +66,7 @@ packs/keysmith.claude/
 
 ### 2.1 规则包（`kind: "rules"`）
 
-规则包给 App 的「输入替换」新增一张**只读**规则表：用户在 Codex 里打字，发给模型前按表做字面替换。它不写入提示词库。
+规则包给 App 的「输入替换」新增一张**只读**规则表：用户在 Agent 里打字，发给模型前按表做字面替换。它不写入提示词库。
 
 ```
 packs/example.rules/
@@ -78,8 +78,8 @@ packs/example.rules/
 
 | 字段 | 规则 |
 | --- | --- |
-| `min_app_version` | 至少 `0.4.0`（第一个支持输入替换的 App） |
-| `tools` | 必须正好是 `["codex"]`；目前只有 Codex 支持输入替换 |
+| `min_app_version` | `tools` 正好是 `["codex"]` 时至少 `0.4.0`；其他任何组合至少 `0.5.0`（第一个支持 Claude Code、ZCode 输入替换的 App；0.4.0 不会列出这样的包） |
+| `tools` | 规则表默认作用于哪些 Agent，取值同 §2，不重复。四个都写表示「全部 Agent」，以后新增的 Agent 也包括在内。安装后用户可以在 App 里收窄或放宽，包更新时保留用户的选择 |
 | `items` | **不允许出现** |
 | `rules` | 对象，只有 `file` 和 `sha256` 两个键。`file` 固定为 `rules.json`，`sha256` 是该文件内容的 SHA-256 |
 
@@ -103,7 +103,7 @@ packs/example.rules/
 - 字面匹配，区分大小写，不做 Unicode 归一化。
 - 从左到右扫描，同一位置取最长的那条；替换后的文字不会再被替换。
 - 以 `/` 开头的消息（忽略前导空白）是斜杠命令，整条跳过。
-- 只改用户自己输入的文字；助手回复、工具输出、Codex 自带的上下文不改。
+- 只改用户自己输入的文字；助手回复、工具输出、Agent 自带的上下文（例如 Claude Code 的 `<system-reminder>`）不改。斜杠命令展开后的内容也不改。
 
 安装与更新（App 的行为）：
 
@@ -138,7 +138,7 @@ packs/example.rules/
 }
 ```
 
-规则包的条目同样写在 `packs` 里，`kind` 为 `rules`，`tools` 为 `["codex"]`，`item_count` 为 `0`；其余字段相同。
+规则包的条目同样写在 `packs` 里，`kind` 为 `rules`，`tools` 与 `pack.json` 一致，`item_count` 为 `0`；其余字段相同。
 
 写出方式固定（键排序、两空格缩进、末尾换行、UTF-8），同样的内容总是同样的字节。
 

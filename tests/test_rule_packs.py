@@ -70,6 +70,8 @@ class RulePackTest(unittest.TestCase):
             "has items": (lambda m: m.update(items=[]), "no items"),
             "opaque on an old app": (lambda m: m.update(opaque=True), "opaque"),
             "opaque not a boolean": (lambda m: m.update(opaque="yes", min_app_version="0.6.5"), "opaque"),
+            "opaque as one": (lambda m: m.update(opaque=1, min_app_version="0.6.5"), "opaque"),
+            "opaque as zero": (lambda m: m.update(opaque=0), "opaque"),
             "wrong file": (lambda m: m["rules"].update(file="other.json"), "rules.file"),
             "bad sha": (lambda m: m["rules"].update(sha256="x"), "sha256"),
             "old app": (lambda m: m.update(min_app_version="0.3.9"), "min_app_version"),

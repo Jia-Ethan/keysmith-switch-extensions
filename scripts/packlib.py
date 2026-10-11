@@ -25,7 +25,8 @@ RULES_MIN_APP = (0, 4, 0)
 # The first app version that rewrites for agents other than Codex. A rule pack whose tools
 # are anything but exactly ["codex"] needs it; App 0.4.0 does not list such a pack.
 RULES_ANY_AGENT_MIN_APP = (0, 5, 0)
-# The first app version that keeps opaque rule text off the interface. Older apps skip the pack.
+# The first app version that keeps opaque rule text off the interface. Older apps list the pack
+# as needing a newer app and do not install it.
 RULES_OPAQUE_MIN_APP = (0, 6, 5)
 MAX_RULES = 1000
 MAX_FROM_CHARS = 200
@@ -147,7 +148,7 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
 def _validate_rules_manifest(manifest: Dict[str, Any], tools: List[str], where: str) -> Dict[str, Any]:
     needs = RULES_MIN_APP if tools == ["codex"] else RULES_ANY_AGENT_MIN_APP
     opaque = manifest.get("opaque", False)
-    if opaque not in (True, False):
+    if not isinstance(opaque, bool):
         raise PackError(f"{where}: opaque must be a boolean")
     if opaque:
         needs = max(needs, RULES_OPAQUE_MIN_APP)

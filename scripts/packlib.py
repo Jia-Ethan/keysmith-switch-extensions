@@ -25,6 +25,8 @@ RULES_MIN_APP = (0, 4, 0)
 # The first app version that rewrites for agents other than Codex. A rule pack whose tools
 # are anything but exactly ["codex"] needs it; App 0.4.0 does not list such a pack.
 RULES_ANY_AGENT_MIN_APP = (0, 5, 0)
+# The first app version that keeps opaque rule text off the interface. Older apps skip the pack.
+RULES_OPAQUE_MIN_APP = (0, 6, 5)
 MAX_RULES = 1000
 MAX_FROM_CHARS = 200
 MAX_TO_CHARS = 2000
@@ -97,6 +99,8 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
     semver_tuple(str(manifest.get("min_app_version")))
     if manifest.get("kind") not in KINDS:
         raise PackError(f"{where}: kind must be one of {list(KINDS)}")
+    if "opaque" in manifest and manifest["kind"] != "rules":
+        raise PackError(f"{where}: opaque is only for rule packs")
     _localized(manifest.get("name"), "name", where)
     _localized(manifest.get("description"), "description", where)
     tools = manifest.get("tools")
@@ -142,8 +146,18 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
 
 def _validate_rules_manifest(manifest: Dict[str, Any], tools: List[str], where: str) -> Dict[str, Any]:
     needs = RULES_MIN_APP if tools == ["codex"] else RULES_ANY_AGENT_MIN_APP
+    opaque = manifest.get("opaque", False)
+    if opaque not in (True, False):
+        raise PackError(f"{where}: opaque must be a boolean")
+    if opaque:
+        needs = max(needs, RULES_OPAQUE_MIN_APP)
     if semver_tuple(manifest["min_app_version"]) < needs:
-        what = "a rule pack" if tools == ["codex"] else "a rule pack for agents other than codex"
+        if opaque:
+            what = "an opaque rule pack"
+        elif tools == ["codex"]:
+            what = "a rule pack"
+        else:
+            what = "a rule pack for agents other than codex"
         raise PackError(f"{where}: {what} needs min_app_version {'.'.join(map(str, needs))} or later")
     if "items" in manifest:
         raise PackError(f"{where}: a rule pack has no items")
@@ -336,21 +350,22 @@ def build_index(packs_dir: Path, out_dir: Path, base_url: str, generated_at: str
             raise PackError(f"{manifest['id']}: archive is larger than {MAX_ARCHIVE_BYTES} bytes")
         filename = f"{manifest['id']}-{manifest['version']}.zip"
         (out_dir / filename).write_bytes(archive)
-        entries.append(
-            {
-                "id": manifest["id"],
-                "version": manifest["version"],
-                "min_app_version": manifest["min_app_version"],
-                "kind": manifest["kind"],
-                "name": manifest["name"],
-                "description": manifest["description"],
-                "tools": manifest["tools"],
-                "item_count": len(manifest.get("items", [])),
-                "url": f"{base_url.rstrip('/')}/{filename}",
-                "sha256": sha256_hex(archive),
-                "size": len(archive),
-            }
-        )
+        entry = {
+            "id": manifest["id"],
+            "version": manifest["version"],
+            "min_app_version": manifest["min_app_version"],
+            "kind": manifest["kind"],
+            "name": manifest["name"],
+            "description": manifest["description"],
+            "tools": manifest["tools"],
+            "item_count": len(manifest.get("items", [])),
+            "url": f"{base_url.rstrip('/')}/{filename}",
+            "sha256": sha256_hex(archive),
+            "size": len(archive),
+        }
+        if manifest.get("opaque") is True:
+            entry["opaque"] = True
+        entries.append(entry)
     ids = [entry["id"] for entry in entries]
     if len(set(ids)) != len(ids):
         raise PackError("two packs share an id")

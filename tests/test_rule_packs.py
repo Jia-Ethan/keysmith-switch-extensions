@@ -68,6 +68,8 @@ class RulePackTest(unittest.TestCase):
             "unknown agent": (lambda m: m.update(tools=["cursor"], min_app_version="0.5.0"), "tools"),
             "repeated agent": (lambda m: m.update(tools=["claude", "claude"], min_app_version="0.5.0"), "tools"),
             "has items": (lambda m: m.update(items=[]), "no items"),
+            "opaque on an old app": (lambda m: m.update(opaque=True), "opaque"),
+            "opaque not a boolean": (lambda m: m.update(opaque="yes", min_app_version="0.6.5"), "opaque"),
             "wrong file": (lambda m: m["rules"].update(file="other.json"), "rules.file"),
             "bad sha": (lambda m: m["rules"].update(sha256="x"), "sha256"),
             "old app": (lambda m: m.update(min_app_version="0.3.9"), "min_app_version"),
@@ -77,6 +79,49 @@ class RulePackTest(unittest.TestCase):
             with self.subTest(name):
                 root = self.tmp / name.replace(" ", "-")
                 self.rejected(make_rule_pack(root, mutate=mutate), fragment)
+
+    def test_opaque_rule_pack_builds(self):
+        packs = self.tmp / "packs"
+        make_rule_pack(packs, mutate=lambda m: m.update(opaque=True, min_app_version="0.6.5"))
+        out = self.tmp / "dist"
+        index = packlib.build_index(packs, out, "https://example.test/dl", "2026-10-11T00:00:00Z")
+        self.assertTrue(index["packs"][0]["opaque"])
+        packlib.verify_release(out)
+
+    def test_opaque_is_omitted_from_the_index_when_false(self):
+        packs = self.tmp / "packs"
+        make_rule_pack(packs)
+        out = self.tmp / "dist"
+        index = packlib.build_index(packs, out, "https://example.test/dl", "2026-10-11T00:00:00Z")
+        self.assertNotIn("opaque", index["packs"][0])
+
+    def test_prompt_pack_cannot_be_opaque(self):
+        directory = self.tmp / "test.pack"
+        (directory / "prompts").mkdir(parents=True)
+        (directory / "prompts" / "one.md").write_text("x\n", encoding="utf-8")
+        data = (directory / "prompts" / "one.md").read_bytes()
+        manifest = {
+            "schema": 1,
+            "id": "test.pack",
+            "version": "1.0.0",
+            "min_app_version": "0.6.5",
+            "kind": "prompts",
+            "opaque": True,
+            "name": {"en": "Test"},
+            "description": {"en": "Test"},
+            "tools": ["claude"],
+            "items": [{
+                "id": "one",
+                "tool": "claude",
+                "title": {"en": "one"},
+                "file": "prompts/one.md",
+                "sha256": packlib.sha256_hex(data),
+            }],
+        }
+        (directory / "pack.json").write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(packlib.PackError) as caught:
+            packlib.load_pack(directory)
+        self.assertIn("opaque", str(caught.exception))
 
     def test_rule_pack_for_other_agents(self):
         for tools in (["claude"], ["claude", "zcode"], ["claude", "codex", "grok", "zcode"]):

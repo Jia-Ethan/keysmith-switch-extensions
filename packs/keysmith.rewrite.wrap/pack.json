@@ -1,0 +1,33 @@
+{
+  "description": {
+    "en": "Input rewrite: markers such as 【夹具】/[[fixture]] and openings such as 帮我破解 become the measured fixture/describe headers. Defaults to every agent.",
+    "zh-CN": "输入替换：把【夹具】【范围】【描述】等标记和「帮我破解」一类开场，换成已测过的夹具/描述路由头。默认四个 Agent。",
+    "zh-TW": "輸入替換：把【夾具】【範圍】【描述】等標記和「幫我破解」一類開場，換成已測過的夾具/描述路由頭。預設四個 Agent。"
+  },
+  "id": "keysmith.rewrite.wrap",
+  "kind": "rules",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.6.0",
+  "name": {
+    "en": "Expression layer · wrap",
+    "zh-CN": "表达层 · 路由头",
+    "zh-TW": "表達層 · 路由頭"
+  },
+  "rules": {
+    "file": "rules.json",
+    "sha256": "ed9c48199c78560d96b5a0f53bb7f499c10808f32aff537f2e33312515121c96"
+  },
+  "schema": 1,
+  "tools": [
+    "claude",
+    "codex",
+    "grok",
+    "zcode"
+  ],
+  "version": "0.1.0"
+}

@@ -75,13 +75,23 @@ tests/                          格式测试
 
 除了提示词包，仓库也可以发布**输入替换规则包**（`kind: "rules"`）。用户安装后，规则表会出现在 App 的「输入替换」页，用于在 Agent 把文字发给模型前按字面替换。规则包用 `tools` 声明默认作用于哪些 Agent。安装前 App 会列出全部规则；已启用的规则表有更新时，要用户确认后才切换。`opaque: true` 的密封包在 App 里只展示条数，不展示规则正文；这只是界面上不展示，发布的 zip 里规则仍是明文。
 
-目前官方快照里没有规则包。格式见 [SPEC.md §2.1](SPEC.md#21-规则包kind-rules)。
+官方规则包三张表，由 [`scripts/gen_rewrite_packs.py`](scripts/gen_rewrite_packs.py) 生成，纪律见 [官方输入替换规则包](docs/rewrite-packs.md)。发布新快照后才会出现在 App 拓展页：
+
+| 包 id | 名称 | 作用 |
+| --- | --- | --- |
+| `keysmith.rewrite.wrap` | 表达层 · 路由头 | 标记和「帮我破解」一类开场 → 夹具/描述路由头 |
+| `keysmith.rewrite.lab` | 表达层 · 实验室 | 祈使句 × 类型名 → 样本描述 |
+| `keysmith.rewrite.craft` | 表达层 · 文稿 | 成人/暴力/配方冷开场 → 稿件改写句式 |
+
+格式见 [SPEC.md §2.1](SPEC.md#21-规则包kind-rules)。
 
 ## ✍️ 添加或修改一个包
 
 ```bash
 # 1. 在 packs/<id>/ 下写 pack.json 和 prompts/*.md（规则包写 rules.json；sha256 可以先留空）
-# 2. 自动填入哈希并校验
+#    官方三张规则表不要手改 rules.json，改 scripts/gen_rewrite_packs.py 后：
+python3 scripts/gen_rewrite_packs.py
+# 2. 自动填入哈希并校验（生成器已封过官方规则包；其它包仍走这一步）
 python3 scripts/seal.py packs/<id>
 # 3. 全部检查
 python3 -m unittest discover tests && python3 scripts/check.py

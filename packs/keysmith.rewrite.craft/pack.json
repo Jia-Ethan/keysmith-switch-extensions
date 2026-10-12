@@ -1,0 +1,33 @@
+{
+  "description": {
+    "en": "Input rewrite: turns adult/violence/recipe cold-opens into manuscript-editing or literary-template frames. Turn this table off for engineering work. Defaults to every agent.",
+    "zh-CN": "输入替换：把写黄文、杀人手法、配方冷开场改成稿件改写/文学模板句式。做工程时请关掉。默认四个 Agent。",
+    "zh-TW": "輸入替換：把寫黃文、殺人手法、配方冷開場改成稿件改寫/文學模板句式。做工程時請關掉。預設四個 Agent。"
+  },
+  "id": "keysmith.rewrite.craft",
+  "kind": "rules",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.6.0",
+  "name": {
+    "en": "Expression layer · craft",
+    "zh-CN": "表达层 · 文稿",
+    "zh-TW": "表達層 · 文稿"
+  },
+  "rules": {
+    "file": "rules.json",
+    "sha256": "6f6246fa7faa1cf0710d11ba6b5cdf07799a42639aebcc1d5b181862994ea5e4"
+  },
+  "schema": 1,
+  "tools": [
+    "claude",
+    "codex",
+    "grok",
+    "zcode"
+  ],
+  "version": "0.1.0"
+}

@@ -1,0 +1,33 @@
+{
+  "description": {
+    "en": "Input rewrite: turns imperative + type-name phrases such as write a keylogger into a sample description. No two-character triggers. Defaults to every agent.",
+    "zh-CN": "输入替换：把「写一个 keylogger」这类祈使句×类型名，改成样本描述句。不含两字短词。默认四个 Agent。",
+    "zh-TW": "輸入替換：把「寫一個 keylogger」這類祈使句×類型名，改成樣本描述句。不含兩字短詞。預設四個 Agent。"
+  },
+  "id": "keysmith.rewrite.lab",
+  "kind": "rules",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.6.0",
+  "name": {
+    "en": "Expression layer · lab",
+    "zh-CN": "表达层 · 实验室",
+    "zh-TW": "表達層 · 實驗室"
+  },
+  "rules": {
+    "file": "rules.json",
+    "sha256": "72b52c0b4238e3645347fa9797ae93b01447ecae0e69d71e931a7e51a010f1df"
+  },
+  "schema": 1,
+  "tools": [
+    "claude",
+    "codex",
+    "grok",
+    "zcode"
+  ],
+  "version": "0.1.0"
+}

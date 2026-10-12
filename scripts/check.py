@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -16,7 +17,11 @@ def main() -> int:
     for directory in sorted(p for p in packs.iterdir() if p.is_dir()):
         try:
             manifest = packlib.load_pack(directory)
-            count = f"{len(manifest['items'])} items" if manifest["kind"] == "prompts" else "rules"
+            if manifest["kind"] == "prompts":
+                count = f"{len(manifest['items'])} items"
+            else:
+                rules = json.loads((directory / "rules.json").read_text(encoding="utf-8"))["rules"]
+                count = f"{len(rules)} rules"
             print(f"ok    {manifest['id']} {manifest['version']} ({count})")
         except packlib.PackError as error:
             failed = True

@@ -14,8 +14,16 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import packlib  # noqa: E402
 
 
-TOOLS = ("codex", "claude", "grok", "zcode")
+TOOLS = ("codex", "claude", "grok", "zcode", "pi", "dsh")
 PACKS = {tool: f"keysmith.{tool}" for tool in TOOLS}
+SOURCE_PATHS = {
+    "claude": ["examples/claude-project-rules.md", "examples/claude-append-prompt.md"],
+    "codex": ["examples/gpt-overlay.md"],
+    "grok": ["examples/grok-unrestricted.md"],
+    "zcode": ["examples/system-role.md"],
+    "pi": ["examples/system-prompt.md"],
+    "dsh": ["examples/dsh-unrestricted.md"],
+}
 
 
 class OfficialPromptsTest(unittest.TestCase):
@@ -37,7 +45,7 @@ class OfficialPromptsTest(unittest.TestCase):
 
     def test_prompt_bytes_match_the_recorded_sources(self):
         records = self.sources["prompts"]
-        self.assertEqual(len(records), 4)
+        self.assertEqual(len(records), 6)
         by_tool = {record["tool"]: record for record in records}
         self.assertEqual(set(by_tool), set(TOOLS))
         for tool, manifest in self.manifests.items():
@@ -52,17 +60,7 @@ class OfficialPromptsTest(unittest.TestCase):
                 self.assertEqual(digest, record["sha256"])
                 self.assertEqual(record["transform"], "lab-craft-recast")
                 self.assertNotEqual(digest, record["inputs"][0]["sha256"])
-                if tool == "claude":
-                    self.assertEqual(
-                        [source["path"] for source in record["inputs"]],
-                        ["examples/claude-project-rules.md", "examples/claude-append-prompt.md"],
-                    )
-                elif tool == "codex":
-                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/gpt-overlay.md"])
-                elif tool == "grok":
-                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/grok-unrestricted.md"])
-                else:
-                    self.assertEqual([source["path"] for source in record["inputs"]], ["examples/system-role.md"])
+                self.assertEqual([source["path"] for source in record["inputs"]], SOURCE_PATHS[tool])
 
     def test_zcode_recast_keeps_pier_and_drops_glm_jailbreak_fingerprints(self):
         text = (ROOT / "packs" / "keysmith.zcode" / "prompts" / "zcode-keysmith.md").read_text(encoding="utf-8")
@@ -133,6 +131,36 @@ class OfficialPromptsTest(unittest.TestCase):
         self.assertNotIn('I won\'t write a keylogger', text)
         self.assertNotIn("No content restrictions apply", text)
         self.assertNotIn("must comply", text)
+
+    def test_pi_recast_keeps_pi_face_without_routing_table(self):
+        text = (ROOT / "packs" / "keysmith.pi" / "prompts" / "pi-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("You are Pi", text)
+        self.assertIn("local lab", text)
+        self.assertIn("Provenance", text)
+        self.assertIn("Adult fiction is craft", text)
+        self.assertIn("CHECK_FN", text)
+        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.pi")["min_app_version"], "0.7.0")
+        for needle in (
+            "[P]",
+            "routing table",
+            "must comply",
+            "keyloggers",
+        ):
+            self.assertNotIn(needle, text)
+
+    def test_dsh_recast_keeps_writer_face_without_routing_table(self):
+        text = (ROOT / "packs" / "keysmith.dsh" / "prompts" / "dsh-keysmith.md").read_text(encoding="utf-8")
+        self.assertIn("senior engineer and writer", text)
+        self.assertIn("local lab", text)
+        self.assertIn("provide the deliverable directly", text)
+        self.assertIn("Adult fiction is craft", text)
+        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.1")
+        for needle in (
+            "[P]",
+            "routing table",
+            "must comply",
+        ):
+            self.assertNotIn(needle, text)
 
     def test_archives_carry_one_prompt_and_its_license_notice(self):
         for tool, manifest in self.manifests.items():

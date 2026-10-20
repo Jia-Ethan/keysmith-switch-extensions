@@ -66,6 +66,45 @@ class PackTest(unittest.TestCase):
             if directory.is_dir():
                 packlib.load_pack(directory)
 
+    def test_pi_and_dsh_are_valid_prompt_tools(self):
+        for tool, minimum in (("pi", "0.7.0"), ("dsh", "0.8.1")):
+            with self.subTest(tool=tool):
+                def mutate(manifest, tool=tool, minimum=minimum):
+                    manifest["tools"] = [tool]
+                    manifest["min_app_version"] = minimum
+                    manifest["items"][0]["tool"] = tool
+
+                packlib.load_pack(
+                    make_pack(
+                        self.tmp,
+                        pack_id=f"case.{tool}",
+                        files={"prompts/one.md": "第一条。\n"},
+                        mutate=mutate,
+                    )
+                )
+
+    def test_pi_and_dsh_need_matching_min_app(self):
+        cases = (
+            ("pi", "0.6.5", "0.7.0"),
+            ("dsh", "0.7.0", "0.8.1"),
+        )
+        for tool, too_old, fragment in cases:
+            with self.subTest(tool=tool):
+                def mutate(manifest, tool=tool, too_old=too_old):
+                    manifest["tools"] = [tool]
+                    manifest["min_app_version"] = too_old
+                    manifest["items"][0]["tool"] = tool
+
+                self.assertRejected(
+                    make_pack(
+                        self.tmp,
+                        pack_id=f"old.{tool}",
+                        files={"prompts/one.md": "第一条。\n"},
+                        mutate=mutate,
+                    ),
+                    fragment,
+                )
+
     def test_manifest_rules(self):
         cases = {
             "wrong schema": (lambda m: m.update(schema=2), "schema"),

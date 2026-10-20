@@ -34,7 +34,7 @@ packs/keysmith.claude/
 | `min_app_version` | 三段式；低于此版本的 App 不显示、不安装 |
 | `kind` | `prompts`（提示词包）或 `rules`（输入替换规则包，见 §2.1） |
 | `name`、`description` | 对象，键为 `zh-CN`、`zh-TW`、`en`，至少一种语言，不能为空。`description` 仍是 schema 1 的必填字段，但**不进入 App 拓展页卡片**，见下方“拓展页展示规则” |
-| `tools` | 适用的 Agent：`claude`、`codex`、`grok`、`zcode` 中的若干个，不重复 |
+| `tools` | 适用的 Agent：`claude`、`codex`、`grok`、`zcode`、`pi`、`dsh` 中的若干个，不重复。含 `pi` 的包 `min_app_version` 至少 `0.7.0`（第一个把 pi 列为 Agent 的 App）；含 `dsh` 的包至少 `0.8.1`（第一个把 DSH 列为 Agent 的 App）。更早的 App 会把这样的包列为「需要新版 App」 |
 | `items` | 1 到 200 条，见下 |
 | `license` | 可选对象：`spdx` 为许可标识，`notices` 为完整版权与许可通知的字符串数组；随 `pack.json` 分发，不属于提示词正文 |
 
@@ -79,7 +79,7 @@ packs/example.rules/
 | 字段 | 规则 |
 | --- | --- |
 | `min_app_version` | `tools` 正好是 `["codex"]` 时至少 `0.4.0`；其他任何组合至少 `0.5.0`（第一个支持 Claude Code、ZCode 输入替换的 App；0.4.0 不会列出这样的包）。`opaque` 为 `true` 时至少 `0.6.5`（第一个把规则正文从界面拿掉的 App；更早的版本把这样的包列为「需要新版 App」，不能安装） |
-| `tools` | 规则表默认作用于哪些 Agent，取值同 §2，不重复。四个都写表示「全部 Agent」，以后新增的 Agent 也包括在内。安装后用户可以在 App 里收窄或放宽，包更新时保留用户的选择 |
+| `tools` | 规则表默认作用于哪些 Agent，取值同 §2 里已接输入替换的那些：`claude`、`codex`、`grok`、`zcode`，不重复。这四个都写表示「全部已接输入替换的 Agent」。`pi` 和 `dsh` 目前没有输入替换，官方规则包不要把它们写进 `tools`。安装后用户可以在 App 里收窄或放宽，包更新时保留用户的选择 |
 | `opaque` | 可选布尔值，默认 `false`。为 `true` 时这是一张**密封**规则表：App 安装、列表、更新确认都不展示 `from` / `to`，也没有「复制到我的规则」。密封只管界面，**不是加密**：发布的 zip 里 `rules.json` 仍是明文，任何人都能下载；安装后规则在本机数据库、备份和中转服务读取的 `rules.json` 里也是明文。不要把需要保密的内容写进规则包。提示词包不得带这个字段 |
 | `items` | **不允许出现** |
 | `rules` | 对象，只有 `file` 和 `sha256` 两个键。`file` 固定为 `rules.json`，`sha256` 是该文件内容的 SHA-256 |

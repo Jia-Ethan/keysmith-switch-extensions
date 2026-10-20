@@ -67,6 +67,38 @@
       "sha256": "8e823d71a484af85601ac36cae515c989672b4e2a38cc283b56bdda93f4efd2f",
       "tool": "zcode",
       "transform": "lab-craft-recast"
+    },
+    {
+      "commit": "f0fb691a45b6942f1f988cabac9493c200c2c82d",
+      "inputs": [
+        {
+          "path": "examples/system-prompt.md",
+          "sha256": "4b2a5833b928635df096c0dd06f05d4632bda949750fcf8872e7f94e6e727edb"
+        }
+      ],
+      "output": "prompts/pi-keysmith.md",
+      "pack_id": "keysmith.pi",
+      "pack_version": "0.1.0",
+      "repository": "https://github.com/Jia-Ethan/pi-keysmith",
+      "sha256": "f1c72c80ab1ccf3b41b8346f591ee41ec8eba63c44e876317873a8679b1d7adb",
+      "tool": "pi",
+      "transform": "lab-craft-recast"
+    },
+    {
+      "commit": "21e38e58c5a01fbd286b0561692876637adc805a",
+      "inputs": [
+        {
+          "path": "examples/dsh-unrestricted.md",
+          "sha256": "6b6e145b696d5a7edd05452c561d514d2b4fbb60c319a1af85c394e39032e78f"
+        }
+      ],
+      "output": "prompts/dsh-keysmith.md",
+      "pack_id": "keysmith.dsh",
+      "pack_version": "0.1.0",
+      "repository": "https://github.com/Jia-Ethan/dsh-keysmith",
+      "sha256": "a7a06de7ead3d3cb849f0cda7a8074eb68139b1573d10fc3cb9479486ed24387",
+      "tool": "dsh",
+      "transform": "lab-craft-recast"
     }
   ]
 }

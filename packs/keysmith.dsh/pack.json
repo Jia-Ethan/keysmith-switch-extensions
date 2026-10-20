@@ -1,0 +1,43 @@
+{
+  "description": {
+    "en": "DSH Keysmith's main prompt: the bundled AGENTS.md as a lab/craft recast.",
+    "zh-CN": "DSH Keysmith 项目的主提示词：内置 AGENTS.md 的 lab/craft recast。",
+    "zh-TW": "DSH Keysmith 專案的主提示詞：內建 AGENTS.md 的 lab/craft recast。"
+  },
+  "id": "keysmith.dsh",
+  "items": [
+    {
+      "file": "prompts/dsh-keysmith.md",
+      "id": "dsh-keysmith",
+      "sha256": "a7a06de7ead3d3cb849f0cda7a8074eb68139b1573d10fc3cb9479486ed24387",
+      "tags": [
+        "Keysmith",
+        "DSH"
+      ],
+      "title": {
+        "en": "DSH Keysmith official prompt",
+        "zh-CN": "DSH Keysmith 官方提示词",
+        "zh-TW": "DSH Keysmith 官方提示詞"
+      },
+      "tool": "dsh"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.8.1",
+  "name": {
+    "en": "DSH Keysmith",
+    "zh-CN": "DSH Keysmith",
+    "zh-TW": "DSH Keysmith"
+  },
+  "schema": 1,
+  "tools": [
+    "dsh"
+  ],
+  "version": "0.1.0"
+}

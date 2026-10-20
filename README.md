@@ -52,7 +52,7 @@ tests/                          格式测试
 
 ## 📄 官方提示词
 
-四个 Keysmith 子项目的官方提示词各是一个独立的包，在 App 的拓展页里逐个显示、逐个安装或卸载，互不绑定。另有一个给 GPT 还原加密容器的专用包，和 Codex Keysmith 并列，不替换它：
+六个 Keysmith 子项目的官方提示词各是一个独立的包，在 App 的拓展页里逐个显示、逐个安装或卸载，互不绑定。另有一个给 GPT 还原加密容器的专用包，和 Codex Keysmith 并列，不替换它：
 
 | 包 id | 名称 | 工具 | 来源 |
 | --- | --- | --- | --- |
@@ -60,6 +60,8 @@ tests/                          格式测试
 | `keysmith.claude` | Claude Keysmith | Claude | `claude-project-rules.md` + append 的 lab/craft recast（0.2.1） |
 | `keysmith.grok` | Grok Keysmith | Grok | 默认 `grok-unrestricted.md` 的 lab/craft recast（0.2.1） |
 | `keysmith.zcode` | ZCode Keysmith | ZCode | v0.3.3 `system-role.md` 的 lab/craft recast（0.2.1） |
+| `keysmith.pi` | pi Keysmith | pi | `system-prompt.md` 的 lab/craft recast（0.1.0；App ≥ 0.7.0） |
+| `keysmith.dsh` | DSH Keysmith | DSH | `dsh-unrestricted.md` 的 lab/craft recast（0.1.0；App ≥ 0.8.1） |
 | `keysmith.codex-drm` | GPT DRM | Codex | 0.1.1：GPT ENC_CONTAINER overlay + 中文 CTF 包装的未点名夹具提示词 |
 
 这些包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
@@ -67,7 +69,7 @@ tests/                          格式测试
 > [!NOTE]
 > 拓展页卡片**不展示包摘要**：只显示名称、官方角标、条数、大小、版本和安装状态。这适用于所有包（已上架的和以后发布的）。`pack.json` 的 `description` 仍是必填字段，但不进卡片；见 [SPEC.md](SPEC.md#拓展页展示规则)。
 
-正文保留原项目的人名、`[P]` 和工作区上下文。0.2.1 起四条都是 lab/craft recast，不是源文件字节复制；各包保留该模型已测过的脸。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
+正文保留各模型已测过的脸。六条都带 Ethan 称呼和 `[P]` 首行（注入成功标记）。Claude / Codex / Grok / ZCode 保留原项目的人名；pi / DSH 源稿没有 `[P]`，recast 按 Claude 句式补上。0.2.1 起前四条、以及 pi / DSH 的 0.1.0，都是 lab/craft recast，不是源文件字节复制。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
 
 新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
 
@@ -125,6 +127,6 @@ python3 scripts/build.py --out dist
 
 ## 📄 许可
 
-四个 `keysmith.*` 包中迁入的提示词沿用原项目的 MIT 许可。Codex、Claude、Grok 的版权为 © 2026 Jia-Ethan，ZCode 的版权为 © 2026 Ethan；每个包的完整通知保存在它自己的 `pack.json` 的 `license.notices` 中，随 ZIP 分发。详见 [来源与许可记录](docs/prompt-sources.md)。
+官方 `keysmith.*` 提示词包中迁入的正文沿用原项目的 MIT 许可。Codex、Claude、Grok、pi、DSH 的版权为 © 2026 Jia-Ethan，ZCode 的版权为 © 2026 Ethan。三张官方规则包 `keysmith.rewrite.*` 为 MIT，版权 © 2026 Jia-Ethan。每个包的完整通知保存在它自己的 `pack.json` 的 `license.notices` 中，随 ZIP 分发。详见 [来源与许可记录](docs/prompt-sources.md)。
 
 其他仓库内容尚未选择许可证，在选定之前保留所有权利。

@@ -17,7 +17,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List, Optional
 
 SCHEMA = 1
-TOOLS = ("claude", "codex", "grok", "zcode")
+TOOLS = ("claude", "codex", "grok", "zcode", "pi", "dsh")
+REWRITE_TOOLS = ("claude", "codex", "grok", "zcode")
 KINDS = ("prompts", "rules")
 RULES_FILE = "rules.json"
 # The first app version that understands rule packs (for Codex only).
@@ -28,6 +29,9 @@ RULES_ANY_AGENT_MIN_APP = (0, 5, 0)
 # The first app version that keeps opaque rule text off the interface. Older apps list the pack
 # as needing a newer app and do not install it.
 RULES_OPAQUE_MIN_APP = (0, 6, 5)
+# First app versions that list these agents. Older apps drop the unknown tool name.
+PI_MIN_APP = (0, 7, 0)
+DSH_MIN_APP = (0, 8, 1)
 MAX_RULES = 1000
 MAX_FROM_CHARS = 200
 MAX_TO_CHARS = 2000
@@ -107,6 +111,11 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
     tools = manifest.get("tools")
     if not isinstance(tools, list) or not tools or len(set(tools)) != len(tools) or any(t not in TOOLS for t in tools):
         raise PackError(f"{where}: tools must be a non-empty list of unique names from {list(TOOLS)}")
+    have = semver_tuple(str(manifest.get("min_app_version")))
+    if "pi" in tools and have < PI_MIN_APP:
+        raise PackError(f"{where}: a pack whose tools include 'pi' needs min_app_version 0.7.0")
+    if "dsh" in tools and have < DSH_MIN_APP:
+        raise PackError(f"{where}: a pack whose tools include 'dsh' needs min_app_version 0.8.1")
     if manifest["kind"] == "rules":
         return _validate_rules_manifest(manifest, tools, where)
     items = manifest.get("items")
@@ -146,6 +155,10 @@ def validate_manifest(manifest: Any, where: str = "pack.json") -> Dict[str, Any]
 
 
 def _validate_rules_manifest(manifest: Dict[str, Any], tools: List[str], where: str) -> Dict[str, Any]:
+    if any(tool not in REWRITE_TOOLS for tool in tools):
+        raise PackError(
+            f"{where}: rule pack tools must be rewrite agents {list(REWRITE_TOOLS)}"
+        )
     needs = RULES_MIN_APP if tools == ["codex"] else RULES_ANY_AGENT_MIN_APP
     opaque = manifest.get("opaque", False)
     if not isinstance(opaque, bool):

@@ -125,6 +125,15 @@ class RulePackTest(unittest.TestCase):
             packlib.load_pack(directory)
         self.assertIn("opaque", str(caught.exception))
 
+    def test_rule_pack_rejects_agents_without_rewrite(self):
+        for tool in ("pi", "dsh"):
+            with self.subTest(tool=tool):
+                directory = make_rule_pack(
+                    self.tmp / tool,
+                    mutate=lambda m, tool=tool: m.update(tools=[tool], min_app_version="0.8.1"),
+                )
+                self.rejected(directory, "rewrite agents")
+
     def test_rule_pack_for_other_agents(self):
         for tools in (["claude"], ["claude", "zcode"], ["claude", "codex", "grok", "zcode"]):
             with self.subTest(tools=tools):

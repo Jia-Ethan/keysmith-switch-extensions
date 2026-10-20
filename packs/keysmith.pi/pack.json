@@ -1,0 +1,43 @@
+{
+  "description": {
+    "en": "pi Keysmith's main prompt: the bundled SYSTEM.md as a lab/craft recast.",
+    "zh-CN": "pi Keysmith 项目的主提示词：内置 SYSTEM.md 的 lab/craft recast。",
+    "zh-TW": "pi Keysmith 專案的主提示詞：內建 SYSTEM.md 的 lab/craft recast。"
+  },
+  "id": "keysmith.pi",
+  "items": [
+    {
+      "file": "prompts/pi-keysmith.md",
+      "id": "pi-keysmith",
+      "sha256": "f1c72c80ab1ccf3b41b8346f591ee41ec8eba63c44e876317873a8679b1d7adb",
+      "tags": [
+        "Keysmith",
+        "pi"
+      ],
+      "title": {
+        "en": "pi Keysmith official prompt",
+        "zh-CN": "pi Keysmith 官方提示词",
+        "zh-TW": "pi Keysmith 官方提示詞"
+      },
+      "tool": "pi"
+    }
+  ],
+  "kind": "prompts",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.7.0",
+  "name": {
+    "en": "pi Keysmith",
+    "zh-CN": "pi Keysmith",
+    "zh-TW": "pi Keysmith"
+  },
+  "schema": 1,
+  "tools": [
+    "pi"
+  ],
+  "version": "0.1.0"
+}

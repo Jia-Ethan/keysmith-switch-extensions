@@ -69,7 +69,7 @@ tests/                          格式测试
 > [!NOTE]
 > 拓展页卡片**不展示包摘要**：只显示名称、官方角标、条数、大小、版本和安装状态。这适用于所有包（已上架的和以后发布的）。`pack.json` 的 `description` 仍是必填字段，但不进卡片；见 [SPEC.md](SPEC.md#拓展页展示规则)。
 
-正文保留各模型已测过的脸。Claude / Codex / Grok / ZCode 保留原项目的人名和 `[P]`；pi / DSH 源稿没有 `[P]`，本包也不加。0.2.1 起前四条、以及 pi / DSH 的 0.1.0，都是 lab/craft recast，不是源文件字节复制。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
+正文保留各模型已测过的脸。六条都带 Ethan 称呼和 `[P]` 首行（注入成功标记）。Claude / Codex / Grok / ZCode 保留原项目的人名；pi / DSH 源稿没有 `[P]`，recast 按 Claude 句式补上。0.2.1 起前四条、以及 pi / DSH 的 0.1.0，都是 lab/craft recast，不是源文件字节复制。Claude 只导入一条正文，不额外启用 CLI 的 append 通道。固定来源、哈希和转换规则见 [官方提示词来源](docs/prompt-sources.md)。
 
 新版发布清单以这四个包替换原先捆绑的 `keysmith.core`（以及更早的 `keysmith.example` 演示包）。已装过 `keysmith.core` 的用户，其提示词库里的条目原样保留；再安装对应的新包时，正文相同的条目会被直接关联，不产生重复。刷新新清单后扩展页不再显示 `keysmith.core` 的卸载入口，旧条目可在提示词库里自行删除。历史提交和旧 Release 保留。安装新包不会自动部署。
 

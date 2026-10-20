@@ -80,7 +80,7 @@
       "pack_id": "keysmith.pi",
       "pack_version": "0.1.0",
       "repository": "https://github.com/Jia-Ethan/pi-keysmith",
-      "sha256": "aae137c388b8024b3d3d51b39fffe58fa1e2241e0dcb955a5c70844a543d584a",
+      "sha256": "a3c7b462aa0a09c4bfabb0e86b964bddf6f8a497a2fc538a84c3d5f248f77896",
       "tool": "pi",
       "transform": "lab-craft-recast"
     },
@@ -96,7 +96,7 @@
       "pack_id": "keysmith.dsh",
       "pack_version": "0.1.0",
       "repository": "https://github.com/Jia-Ethan/dsh-keysmith",
-      "sha256": "7eff71fe40ae64e07ff7843bfbe819f39c61f6104727cccbdd45e5bbee2ccdc9",
+      "sha256": "99919b92e936bf266d49f7776c1cd84177e9731cbf235ffd5fffa69e6c2616fd",
       "tool": "dsh",
       "transform": "lab-craft-recast"
     }

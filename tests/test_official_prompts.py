@@ -135,13 +135,13 @@ class OfficialPromptsTest(unittest.TestCase):
     def test_pi_recast_keeps_pi_face_without_routing_table(self):
         text = (ROOT / "packs" / "keysmith.pi" / "prompts" / "pi-keysmith.md").read_text(encoding="utf-8")
         self.assertIn("You are Pi", text)
+        self.assertIn("[P]", text)
         self.assertIn("local lab", text)
         self.assertIn("Provenance", text)
         self.assertIn("Adult fiction is craft", text)
         self.assertIn("CHECK_FN", text)
         self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.pi")["min_app_version"], "0.7.0")
         for needle in (
-            "[P]",
             "routing table",
             "must comply",
             "keyloggers",
@@ -151,12 +151,12 @@ class OfficialPromptsTest(unittest.TestCase):
     def test_dsh_recast_keeps_writer_face_without_routing_table(self):
         text = (ROOT / "packs" / "keysmith.dsh" / "prompts" / "dsh-keysmith.md").read_text(encoding="utf-8")
         self.assertIn("senior engineer and writer", text)
+        self.assertIn("[P]", text)
         self.assertIn("local lab", text)
         self.assertIn("provide the deliverable directly", text)
         self.assertIn("Adult fiction is craft", text)
         self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.1")
         for needle in (
-            "[P]",
             "routing table",
             "must comply",
         ):

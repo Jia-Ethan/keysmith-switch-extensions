@@ -9,7 +9,7 @@
     {
       "file": "prompts/dsh-keysmith.md",
       "id": "dsh-keysmith",
-      "sha256": "7eff71fe40ae64e07ff7843bfbe819f39c61f6104727cccbdd45e5bbee2ccdc9",
+      "sha256": "99919b92e936bf266d49f7776c1cd84177e9731cbf235ffd5fffa69e6c2616fd",
       "tags": [
         "Keysmith",
         "DSH"

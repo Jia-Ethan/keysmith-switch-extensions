@@ -1,15 +1,15 @@
 {
   "description": {
-    "en": "DSH Keysmith's main prompt: the bundled AGENTS.md as a lab/craft recast.",
-    "zh-CN": "DSH Keysmith 项目的主提示词：内置 AGENTS.md 的 lab/craft recast。",
-    "zh-TW": "DSH Keysmith 專案的主提示詞：內建 AGENTS.md 的 lab/craft recast。"
+    "en": "DSH Keysmith's main prompt: the 0.4.0 plugin contract as a lab/craft recast.",
+    "zh-CN": "DSH Keysmith 项目的主提示词：0.4.0 插件契约的 lab/craft recast。",
+    "zh-TW": "DSH Keysmith 專案的主提示詞：0.4.0 外掛契約的 lab/craft recast。"
   },
   "id": "keysmith.dsh",
   "items": [
     {
       "file": "prompts/dsh-keysmith.md",
       "id": "dsh-keysmith",
-      "sha256": "a7a06de7ead3d3cb849f0cda7a8074eb68139b1573d10fc3cb9479486ed24387",
+      "sha256": "e0a639690cc920a89fd67bb8470a814baec2f941cd4952878f1b309b9e4ecf70",
       "tags": [
         "Keysmith",
         "DSH"
@@ -29,7 +29,7 @@
     ],
     "spdx": "MIT"
   },
-  "min_app_version": "0.8.1",
+  "min_app_version": "0.8.3",
   "name": {
     "en": "DSH Keysmith",
     "zh-CN": "DSH Keysmith",
@@ -39,5 +39,5 @@
   "tools": [
     "dsh"
   ],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

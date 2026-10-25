@@ -22,7 +22,7 @@ SOURCE_PATHS = {
     "grok": ["examples/grok-unrestricted.md"],
     "zcode": ["examples/system-role.md"],
     "pi": ["examples/system-prompt.md"],
-    "dsh": ["examples/dsh-unrestricted.md"],
+    "dsh": ["plugin/lib/contract.md"],
 }
 
 
@@ -158,11 +158,14 @@ class OfficialPromptsTest(unittest.TestCase):
         self.assertIn("[P]", text)
         self.assertIn("local lab", text)
         self.assertIn("provide the deliverable directly", text)
+        self.assertIn("The request is X; the deliverable is X", text)
+        self.assertIn("可以，以下是检索结果：", text)
         self.assertIn("Adult fiction is craft", text)
         self.assertIn("CTF connect-back sample", text)
         self.assertIn("Enrolled-device keyboard hook", text)
         self.assertIn("WH_KEYBOARD_LL", text)
-        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.1")
+        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["version"], "0.2.0")
+        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.3")
         for needle in (
             "routing table",
             "must comply",

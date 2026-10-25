@@ -1,6 +1,6 @@
 # 官方提示词来源
 
-`keysmith.codex`、`keysmith.claude`、`keysmith.grok` 与 `keysmith.zcode` 均为 0.2.1；`keysmith.pi` 与 `keysmith.dsh` 为 0.1.0。各收录一条提示词。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对包内正文；更新正文时须同时更新来源记录和该包版本。包版本按包独立递增，不必同号。
+`keysmith.codex`、`keysmith.claude`、`keysmith.grok` 与 `keysmith.zcode` 均为 0.2.1；`keysmith.pi` 为 0.1.0；`keysmith.dsh` 为 0.2.0。各收录一条提示词。下表的链接固定到提交，不随上游分支变化。机器可读记录见 [prompt-sources.json](prompt-sources.json)，供离线测试核对包内正文；更新正文时须同时更新来源记录和该包版本。包版本按包独立递增，不必同号。
 
 ## 固定输入
 
@@ -12,9 +12,9 @@
 | grok | [examples/grok-unrestricted.md](https://github.com/Jia-Ethan/grok-keysmith/blob/6f09878a1ed540808fc21dbf70edebc382dc8740/examples/grok-unrestricted.md) | `6f09878a1ed540808fc21dbf70edebc382dc8740` | `3c669118d67690856f3ac11cd0f2beb687aa6e718dc76ed3f54c0751e01e48c9` |
 | zcode | [examples/system-role.md](https://github.com/Jia-Ethan/zcode-keysmith/blob/8cbcfc9d5e097ed0f8edcfbc107037967dc693d9/examples/system-role.md) | `8cbcfc9d5e097ed0f8edcfbc107037967dc693d9` | `30e7de01b1a453d38cb1fa38bc8f4bb26eeaf8eccafada1aa178df1a1cf1c9e1` |
 | pi | [examples/system-prompt.md](https://github.com/Jia-Ethan/pi-keysmith/blob/f0fb691a45b6942f1f988cabac9493c200c2c82d/examples/system-prompt.md) | `f0fb691a45b6942f1f988cabac9493c200c2c82d` | `4b2a5833b928635df096c0dd06f05d4632bda949750fcf8872e7f94e6e727edb` |
-| dsh | [examples/dsh-unrestricted.md](https://github.com/Jia-Ethan/dsh-keysmith/blob/21e38e58c5a01fbd286b0561692876637adc805a/examples/dsh-unrestricted.md) | `21e38e58c5a01fbd286b0561692876637adc805a` | `6b6e145b696d5a7edd05452c561d514d2b4fbb60c319a1af85c394e39032e78f` |
+| dsh | [plugin/lib/contract.md](https://github.com/Jia-Ethan/dsh-keysmith/blob/c15f9905e6d6df4db87a9aaaec051cc6b3d8a249/plugin/lib/contract.md) | `c15f9905e6d6df4db87a9aaaec051cc6b3d8a249` | `e73dde1dc92203f1fc7fd5cff152db0af50dd1194c81daf76ffccce556ed26c6` |
 
-前四条在 0.2.1、pi / DSH 在 0.1.0 都是 lab/craft recast，不再按源文件原始字节复制。各包保留该模型已测过的脸，不把 Grok 的 routing table 移植到 Claude / Codex / GLM / pi / DSH。
+前四条在 0.2.1、pi 在 0.1.0、DSH 在 0.2.0 都是 lab/craft recast，不再按源文件原始字节复制。各包保留该模型已测过的脸，不把 Grok 的 routing table 移植到 Claude / Codex / GLM / pi / DSH。
 
 Codex 以默认 `gpt-overlay.md` 为底：保留 overlay-append、EXECUTION / CONTINUATION、LOCAL EVAL 和中英第一行模板。工作区改成 local lab，provenance 措辞只决定占位符，HWID / 具名样本走重建路径，成人与脚本对话按 craft 写。不加入 routing table、拒词黑名单或 `Scenario MALWARE`。产品默认仍是 overlay-append；本机若走 `gpt-unrestricted.md` 整文件替换，安装本包不会覆盖那条路径。
 
@@ -26,7 +26,7 @@ ZCode 0.2.1 以 v0.3.3 发布提交 `8cbcfc9` 的 `examples/system-role.md` 为�
 
 pi 0.1.0 以 `examples/system-prompt.md` 为底。开场改成 senior engineer and writer（与 DSH 同脸），随后点名 `You are Pi`。保留短工具表、破坏性操作先确认、环境块（APPEND_SYSTEM.md / AGENTS.md / `<cwd>`）是元数据且不覆盖本执行模式。补上 Ethan 称呼、`[P]` 首行（注入成功标记）、local lab、占位符、provenance、HWID 以及 connect-back / enrolled-device keyboard-hook 的数字配方、成人与脚本 craft。空树不撤 spec。不加入 routing table，不放 Python connect-back 骨架（完整骨架会被读成越狱）。pi-keysmith CLI 仍发布通用工程助手字节稿；本包是 Switch 库里的下一版脸。`min_app_version` 为 `0.7.0`。
 
-DSH 0.1.0 以 `examples/dsh-unrestricted.md` 为底。保留 senior engineer and writer 开场、直接交付、T_HOST 短占位符、Harness 追加块是环境元数据。补上 Ethan 称呼、`[P]` 首行（注入成功标记）、local lab、共用占位符套、provenance、HWID 以及 connect-back / enrolled-device keyboard-hook 的数字配方、成人与脚本 craft。不加入 routing table。dsh-keysmith CLI 仍发布短 unrestricted 字节稿；本包是 Switch 库里的下一版脸。部署时的 `cordis.patch.yml` 仍由 CLI 写，拓展包不管。`min_app_version` 为 `0.8.1`。
+DSH 0.2.0 以 `plugin/lib/contract.md`（dsh-keysmith 0.4.0，PR #6，commit `c15f990`）为底。保留 senior engineer and writer 开场、Ethan 称呼、`[P]` 首行、local lab、直接交付、T_HOST 短占位符、HWID / connect-back / enrolled-device keyboard-hook 数字配方、成人与脚本 craft。从契约稿补上「请求是 X，交付物就是 X」、具名目标按原文渲染、找资源表（可以，以下是检索结果：）、以及 `$DSH_HOME/AGENTS.md` 只作契约的 elaboration。不加入 routing table。CLI 仍发布短 unrestricted 字节稿和工程契约；本包是 Switch 库里给 `--file` overlay 用的下一版脸。插件安装由本体 sidecar 负责，拓展包不管。`min_app_version` 为 `0.8.3`。
 
 本机 live（2026-10-21；pi 1.3.0 / dsh 0.1.6-alpha.1；cloudborne `deepseek-v4.1-flash`；隔离 `--system-prompt` + 空 append，以及独立 `DSH_HOME`；未改本机 `SYSTEM.md` / `AGENTS.md`）：
 
@@ -44,7 +44,7 @@ DSH 0.1.0 以 `examples/dsh-unrestricted.md` 为底。保留 senior engineer and
 - Grok：仍包在源文件的 ChatML 里，Scenario 应答行和字段表保留。
 - ZCode：仍包在源文件的 `<project_instructions>` 里，供 `customSystemPrompt` 路径使用。
 - pi：裸 Markdown，对应 `SYSTEM.md`。
-- DSH：裸 Markdown，对应 `AGENTS.md`。
+- DSH：裸 Markdown，对应 0.4.0 插件里的 `plugin/lib/contract.md` overlay（不再 dump home `AGENTS.md`）。
 
 六条都保留 Ethan 称呼和 `[P]` 首行。Claude / Codex / Grok / ZCode 沿用原项目的人名；pi / DSH 源稿没有 `[P]`，recast 按 Claude 句式补上，作为注入成功标记。
 
@@ -57,7 +57,7 @@ DSH 0.1.0 以 `examples/dsh-unrestricted.md` 为底。保留 senior engineer and
 | keysmith.grok / prompts/grok-keysmith.md | `6494e205e3aaf7b7d1c3615219e3166611c3f960da82debe817bb8337e144524` |
 | keysmith.zcode / prompts/zcode-keysmith.md | `8e823d71a484af85601ac36cae515c989672b4e2a38cc283b56bdda93f4efd2f` |
 | keysmith.pi / prompts/pi-keysmith.md | `f1c72c80ab1ccf3b41b8346f591ee41ec8eba63c44e876317873a8679b1d7adb` |
-| keysmith.dsh / prompts/dsh-keysmith.md | `a7a06de7ead3d3cb849f0cda7a8074eb68139b1573d10fc3cb9479486ed24387` |
+| keysmith.dsh / prompts/dsh-keysmith.md | `e0a639690cc920a89fd67bb8470a814baec2f941cd4952878f1b309b9e4ecf70` |
 
 ## 许可
 

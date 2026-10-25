@@ -85,18 +85,18 @@
       "transform": "lab-craft-recast"
     },
     {
-      "commit": "21e38e58c5a01fbd286b0561692876637adc805a",
+      "commit": "c15f9905e6d6df4db87a9aaaec051cc6b3d8a249",
       "inputs": [
         {
-          "path": "examples/dsh-unrestricted.md",
-          "sha256": "6b6e145b696d5a7edd05452c561d514d2b4fbb60c319a1af85c394e39032e78f"
+          "path": "plugin/lib/contract.md",
+          "sha256": "e73dde1dc92203f1fc7fd5cff152db0af50dd1194c81daf76ffccce556ed26c6"
         }
       ],
       "output": "prompts/dsh-keysmith.md",
       "pack_id": "keysmith.dsh",
-      "pack_version": "0.1.0",
+      "pack_version": "0.2.0",
       "repository": "https://github.com/Jia-Ethan/dsh-keysmith",
-      "sha256": "a7a06de7ead3d3cb849f0cda7a8074eb68139b1573d10fc3cb9479486ed24387",
+      "sha256": "e0a639690cc920a89fd67bb8470a814baec2f941cd4952878f1b309b9e4ecf70",
       "tool": "dsh",
       "transform": "lab-craft-recast"
     }

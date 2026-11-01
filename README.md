@@ -45,6 +45,7 @@
 packs/<包 id>/pack.json         描述文件
 packs/<包 id>/prompts/*.md      提示词正文（提示词包）
 packs/<包 id>/rules.json        替换规则（规则包，见 SPEC.md §2.1）
+packs/<包 id>/components/       技能、命令、子 Agent、规则（组件包，见 SPEC.md §2.2）
 scripts/                        校验、打包、封装
 tests/                          格式测试
 .github/workflows/              校验与发布
@@ -87,10 +88,14 @@ tests/                          格式测试
 
 格式见 [SPEC.md §2.1](SPEC.md#21-规则包kind-rules)。
 
+## 🧩 组件包
+
+组件包（`kind: "harness"`）装的是 Agent 自己的组件：**技能、斜杠命令、子 Agent、附加规则文件**，App 把它们写进 Claude Code、Codex、Grok Build 各自的目录。只收第 1 层：装上不运行任何代码，frontmatter 只收白名单里的键，`` !`命令` `` 这类会执行 shell 的写法直接拒绝。需要 App 0.9.0 或更新；更早的 App 不显示这类包。格式见 [SPEC.md §2.2](SPEC.md#22-组件包kind-harness)。
+
 ## ✍️ 添加或修改一个包
 
 ```bash
-# 1. 在 packs/<id>/ 下写 pack.json 和 prompts/*.md（规则包写 rules.json；sha256 可以先留空）
+# 1. 在 packs/<id>/ 下写 pack.json 和 prompts/*.md（规则包写 rules.json，组件包写 components/；sha256 可以先留空）
 #    官方三张规则表不要手改 rules.json，改 scripts/gen_rewrite_packs.py 后：
 python3 scripts/gen_rewrite_packs.py
 # 2. 自动填入哈希并校验（生成器已封过官方规则包；其它包仍走这一步）

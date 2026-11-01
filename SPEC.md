@@ -32,7 +32,7 @@ packs/keysmith.claude/
 | `id` | 小写字母、数字、`.`、`-`，最长 64；必须与目录名一致 |
 | `version` | 三段式 `x.y.z` |
 | `min_app_version` | 三段式；低于此版本的 App 不显示、不安装 |
-| `kind` | `prompts`（提示词包）或 `rules`（输入替换规则包，见 §2.1） |
+| `kind` | `prompts`（提示词包）、`rules`（输入替换规则包，见 §2.1）或 `harness`（Agent 组件包，见 §2.2） |
 | `name`、`description` | 对象，键为 `zh-CN`、`zh-TW`、`en`，至少一种语言，不能为空。`description` 仍是 schema 1 的必填字段，但**不进入 App 拓展页卡片**，见下方“拓展页展示规则” |
 | `tools` | 适用的 Agent：`claude`、`codex`、`grok`、`zcode`、`pi`、`dsh` 中的若干个，不重复。含 `pi` 的包 `min_app_version` 至少 `0.7.0`（第一个把 pi 列为 Agent 的 App）；含 `dsh` 的包至少 `0.8.1`（第一个把 DSH 列为 Agent 的 App）。更早的 App 会把这样的包列为「需要新版 App」 |
 | `items` | 1 到 200 条，见下 |
@@ -116,6 +116,96 @@ packs/example.rules/
 
 默认的官方快照**不包含**任何规则包。规则内容由包作者自行决定，不随 App 内置。
 
+### 2.2 组件包（`kind: "harness"`）
+
+组件包装的不是提示词，而是 **Agent 自己的组件**：技能、斜杠命令、子 Agent、附加规则文件。App 把它们写进各家 Agent 自己的目录，记下写了哪些文件，卸载时只删自己写的、没被改过的文件。
+
+这一版只有**第 1 层**（`tier: 1`）：装上以后**不会运行任何代码**。hook、MCP、状态栏、插件、权限、环境变量这些会运行代码或放宽权限的东西属于第 2 层，不在格式里，校验器一律拒绝。
+
+> [!IMPORTANT]
+> 第 1 层只保证"装上不跑代码"，不等于"无害"：纯文本技能也可以叫模型去执行危险命令。这一点靠人工审核挡。
+
+```
+packs/example.review-kit/
+  pack.json
+  components/
+    review-diff/SKILL.md          技能（目录，可以有多个 .md）
+    review-diff/checklist.md
+    review.md                     斜杠命令
+    reviewer.md                   子 Agent
+    house-style.md                附加规则
+```
+
+`pack.json` 与 §2 相同，以下几处不同：
+
+| 字段 | 规则 |
+| --- | --- |
+| `min_app_version` | 至少 `0.9.0`（第一个能安装组件包的 App） |
+| `tools` | `claude`、`codex`、`grok` 中的若干个。ZCode、pi、DSH 的落点还没核实完，暂不接受。每个写在这里的 Agent 至少要有一个组件 |
+| `tier` | 必填，只能是 `1` |
+| `components` | 1 到 50 个组件，见下 |
+| `items`、`rules` | **不允许出现**。反过来，提示词包和规则包也不能带 `tier`、`components` |
+
+`components[]`：
+
+| 字段 | 规则 |
+| --- | --- |
+| `id` | 小写字母、数字、`-`；包内唯一。决定文件位置，见下 |
+| `type` | `skill`、`command`、`agent`、`rule` 之一 |
+| `name` | 用户看到、调用的名字（`/name`、子 Agent 名、规则文件名）。小写字母开头，只含小写字母、数字、`-`，最长 40。`ks-` 和 `keysmith` 开头的只留给官方包（`keysmith.` 开头的 id）。技能和命令都用 `/name` 调用，所以同一个包里技能和命令不能同名。不能和受支持 Agent 的内置斜杠命令、内置子 Agent 同名（列表见 `scripts/packlib.py`） |
+| `tools` | 包 `tools` 的子集，不重复，而且这种组件在那个 Agent 上要有落点（见下表）。例如 Codex 没有斜杠命令和规则文件 |
+| `title` | 同 `name` 的本地化规则 |
+| `files` | 文件列表，每项只有 `path` 和 `sha256` |
+
+文件位置：
+
+- `skill`：全部文件放在 `components/<id>/` 下，最多 20 个，其中必须有 `components/<id>/SKILL.md`；子目录里不能再出现 `SKILL.md`。
+- `command`、`agent`、`rule`：正好一个文件，`components/<id>.md`。
+- 只允许 `.md`；同一个路径（不区分大小写）不能被两个组件用。其余文件规则同 §2：UTF-8、非空、大小上限、不允许符号链接、目录里不能有清单外的文件。
+
+正文规则（App 写入前用同一套代码再查一遍）：
+
+- 只用 LF 换行；不能有控制字符（制表符、换行除外）；不能有会隐藏或重排文字的不可见字符（双向控制符、零宽字符、BOM、Unicode tag 字符）。审核者看到的必须就是模型读到的。
+- 不能有 `` !`命令` `` 或以 `!` 开头的代码块（```` ```! ````）：Claude Code 调用技能、命令时会把它们当 shell 执行，那就是第 2 层。
+- 不能有引用项目以外文件的 `@`：`@~/`、`@/`、`@$`、`@..`。
+
+**frontmatter 是白名单。** 有任何不在表里的键，就拒绝：
+
+| 组件 | 允许的键 | 必须有的键 | 说明 |
+| --- | --- | --- | --- |
+| `skill` | `name`、`description` | 两个都要 | `name` 等于组件的 `name`。`allowed-tools`、`hooks`、`model`、`context`、`agent` 等会放宽权限或改运行方式，拒绝 |
+| `command` | `description`、`argument-hint` | 无，也可以没有 frontmatter | `allowed-tools` 会放宽权限，拒绝 |
+| `agent` | `name`、`description` | 两个都要 | `name` 等于组件的 `name`。`tools`、`model`、`permissionMode`、`mcpServers`、`hooks` 拒绝。正文就是这个子 Agent 的指令 |
+| `rule` | 无 | — | 不能有 frontmatter |
+
+frontmatter 只接受一个严格的子集，避免"看起来是这样，YAML 读出来是那样"：
+
+- 第一行正好是 `---`，结束行正好是 `---`。
+- 中间每行是 `key: value`，冒号后是空格，值写在同一行。不支持列表、嵌套、多行、注释、锚点、标签。
+- 值是普通文字，或一对 `"…"` / `'…'` 括起来的文字（引号里不能再出现同种引号，双引号里不能有 `\`）。会被 YAML 读成别的东西的普通值（`yes`、`no`、`null`、数字、以 `[` `{` `|` `>` `&` `*` `!` `-` 等开头的、含 `: ` 或 ` #` 的）必须加双引号。
+- frontmatter 之后必须有正文。
+- 装给 Codex 的子 Agent，正文里不能出现 `'''`（App 把正文写成 TOML 多行字面量字符串）。
+
+各 Agent 的落点（App 0.9.0 的行为；根目录遵守 `CLAUDE_CONFIG_DIR`、`CODEX_HOME`、`GROK_HOME` 和 App 的隔离 home 设置）：
+
+| 组件 | Claude Code | Codex | Grok Build |
+| --- | --- | --- | --- |
+| `skill` | `~/.claude/skills/<name>/` | `~/.agents/skills/<name>/`（共享目录，ZCode、pi、DSH 也会读到，App 安装前会说明） | `~/.grok/skills/<name>/` |
+| `command` | `~/.claude/commands/<name>.md` | 不支持 | `~/.grok/commands/<name>.md` |
+| `agent` | `~/.claude/agents/<name>.md` | `~/.codex/agents/<name>.toml`（App 转换：`name`、`description`，正文写成 `developer_instructions`） | `~/.grok/agents/<name>.md` |
+| `rule` | `~/.claude/rules/<name>.md` | 不支持 | `~/.grok/rules/60-<name>.md` |
+
+技能目录里的文件按它在 `components/<id>/` 下的相对路径放。
+
+安装、卸载与更新（App 的行为）：
+
+- 安装前逐个文件展示**落点和完整内容**，用户确认后才写。
+- 目标位置已经有**不是 App 写的**文件或目录，就是冲突，直接拦下，告诉用户是哪个文件；不提供覆盖。
+- App 在台账里记下每个写入的文件和写入时的 `sha256`。卸载只删台账里、而且内容没变的文件；用户改过的保留，并说明。
+- 已安装的组件包有新版本时**不会自动生效**：新版本先挂起，逐个文件展示差异，用户确认后才切换。
+- 组件包不碰提示词部署管的任何文件（`CLAUDE.md` 托管块、`model_instructions_file`、`99-keysmith.md` 等），两边互不影响。
+- 0.9.0 以前的 App 遇到 `kind: "harness"` 会跳过这一条，不显示，也不影响其他包。
+
 ## 3. 清单 `index.json`
 
 ```json
@@ -142,6 +232,8 @@ packs/example.rules/
 
 规则包的条目同样写在 `packs` 里，`kind` 为 `rules`，`tools` 与 `pack.json` 一致，`item_count` 为 `0`；其余字段相同。密封包额外带 `"opaque": true`；非密封包不写这个字段。
 
+组件包的条目 `kind` 为 `harness`，`item_count` 为 `0`，另带 `tier` 和 `components`。`components` 每项只有 `id`、`type`、`name`、`tools`、`title`，不带文件和哈希；内容以压缩包为准。
+
 写出方式固定（键排序、两空格缩进、末尾换行、UTF-8），同样的内容总是同样的字节。
 
 **清单里没有"官方"之类的字段，有意如此。** 官方与否只由"从哪个地址取到的"决定，任何文件里的自我声明都不算数。
@@ -150,6 +242,7 @@ packs/example.rules/
 
 - **没有签名。** 信任的是地址：官方源是写死在 App 里的 HTTPS 地址，只有它之下的内容算“官方”。
 - 这意味着：如果发布者的 GitHub 账号或仓库被入侵，对方可以发布提示词。所以 App 对拓展包的限制很严：只写入提示词库、**从不自动部署**，部署前仍要用户确认。
+- 组件包直接写进 Agent 的目录，所以格式上只收第 1 层（不运行代码），frontmatter 只收白名单里的键；安装前展示每个文件的落点和完整内容，更新必须用户确认，卸载只删 App 写的、没被改过的文件。
 - 规则包一旦启用就会影响发给模型的内容，所以限制更严：安装前先展示全部规则；已启用的表有更新时必须用户确认才切换。密封包例外：用户安装和确认更新时看不到规则正文，等于把「改了什么」交给发布者，信任根仍是写死的官方地址。正文本身并不保密（见 §2.1 `opaque`）。
 - 将来支持第三方来源时，每个来源是它自己的地址，界面显示“非官方”。
 
@@ -161,6 +254,7 @@ packs/example.rules/
 4. 下载压缩包，先核对大小和 `sha256`，再解压。解压时不信任压缩包里的任何路径，逐项按 §2 重新校验。
 5. 提示词包只写入提示词库，**从不自动部署**。库里被用户改过的条目，更新时不覆盖，另存为新条目。
 6. 规则包写入只读规则表，规则见 §2.1。索引里的 `kind` 必须与压缩包里 `pack.json` 的 `kind` 一致。
+7. 组件包按 §2.2 写入 Agent 目录：先展示、再确认、写台账；目标位置有别人的文件就拦下。
 
 ## 6. 版本与兼容
 

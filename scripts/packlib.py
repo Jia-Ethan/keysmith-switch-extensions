@@ -87,6 +87,9 @@ RESERVED_INVOCABLE_NAMES = frozenset({
     "plan", "plugin", "plugins", "pr-comments", "prompts", "quit", "release-notes", "resume",
     "review", "rewind", "sandbox", "security-review", "settings", "skills", "status",
     "statusline", "theme", "todos", "undo", "upgrade", "usage", "vim",
+    # Skills Claude Code ships with, invoked the same way.
+    "batch", "claude-api", "code-review", "debug", "fewer-permission-prompts", "keybindings-help",
+    "loop", "run", "simplify", "update-config",
 })
 RESERVED_AGENT_NAMES = frozenset({"default", "explore", "explorer", "general-purpose", "plan", "statusline-setup", "worker"})
 

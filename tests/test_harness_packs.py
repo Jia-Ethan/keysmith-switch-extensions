@@ -111,6 +111,7 @@ class HarnessTest(unittest.TestCase):
             "reserved prefix": (component(0, name="ks-review"), "official"),
             "reserved keysmith prefix": (component(0, name="keysmith-help"), "official"),
             "built-in command": (component(1, name="review"), "built-in"),
+            "bundled skill": (component(0, name="code-review"), "built-in"),
             "built-in subagent": (component(2, name="general-purpose"), "built-in"),
             "skill and command share /name": (component(1, name="review-diff"), "already uses"),
             "component tool outside the pack": (lambda m: (m.update(tools=["claude", "grok"]), m["components"][0].update(tools=["claude", "codex"]), m["components"][2].update(tools=["claude"])), "this pack's tools"),

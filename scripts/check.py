@@ -19,6 +19,8 @@ def main() -> int:
             manifest = packlib.load_pack(directory)
             if manifest["kind"] == "prompts":
                 count = f"{len(manifest['items'])} items"
+            elif manifest["kind"] == "harness":
+                count = f"{len(manifest['components'])} components, tier {manifest['tier']}"
             else:
                 rules = json.loads((directory / "rules.json").read_text(encoding="utf-8"))["rules"]
                 count = f"{len(rules)} rules"

@@ -125,6 +125,13 @@ class HarnessTest(unittest.TestCase):
             "file under another name": (lambda m: m["components"][2]["files"][0].update(path="components/other.md"), "exactly one file"),
             "bad hash": (lambda m: m["components"][2]["files"][0].update(sha256="abc"), "sha256"),
             "path escape": (lambda m: m["components"][2]["files"][0].update(path="../reviewer.md"), "unsafe path"),
+            "long s folds onto S": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/\u017fKILL.md"), "ASCII"),
+            "kelvin sign folds onto K": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/S\u212aILL.md"), "ASCII"),
+            "non-ascii file name": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/caf\u00e9.md"), "ASCII"),
+            "zero width in a name": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/a\u200b.md"), "ASCII"),
+            "windows device file": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/aux.md"), "ASCII"),
+            "trailing space": (lambda m: m["components"][0]["files"][1].update(path="components/review-diff/notes .md"), "ASCII"),
+            "windows device component name": (component(3, name="aux"), "name"),
         }
         for label, (mutate, fragment) in cases.items():
             with self.subTest(label):
@@ -166,6 +173,7 @@ class HarnessTest(unittest.TestCase):
             "colon space": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: note: this"), "double quotes"),
             "boolean": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: yes"), "double quotes"),
             "number": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: 1.5"), "double quotes"),
+            "signed fraction": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: +.5"), "double quotes"),
             "hex number": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: 0x1F"), "double quotes"),
             "date": ("components/reviewer.md", AGENT.replace("description: A careful reviewer for diffs.", "description: 2026-11-01"), "double quotes"),
             "duplicate key": ("components/reviewer.md", AGENT.replace("---\n\n", "name: reviewer\n---\n\n"), "duplicate"),

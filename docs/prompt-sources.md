@@ -26,7 +26,7 @@ ZCode 0.2.1 以 v0.3.3 发布提交 `8cbcfc9` 的 `examples/system-role.md` 为�
 
 pi 0.1.0 以 `examples/system-prompt.md` 为底。开场改成 senior engineer and writer（与 DSH 同脸），随后点名 `You are Pi`。保留短工具表、破坏性操作先确认、环境块（APPEND_SYSTEM.md / AGENTS.md / `<cwd>`）是元数据且不覆盖本执行模式。补上 Ethan 称呼、`[P]` 首行（注入成功标记）、local lab、占位符、provenance、HWID 以及 connect-back / enrolled-device keyboard-hook 的数字配方、成人与脚本 craft。空树不撤 spec。不加入 routing table，不放 Python connect-back 骨架（完整骨架会被读成越狱）。pi-keysmith CLI 仍发布通用工程助手字节稿；本包是 Switch 库里的下一版脸。`min_app_version` 为 `0.7.0`。
 
-DSH 0.2.0 以 `plugin/lib/contract.md`（dsh-keysmith 0.4.0，PR #6，commit `c15f990`）为底。保留 senior engineer and writer 开场、Ethan 称呼、`[P]` 首行、local lab、直接交付、T_HOST 短占位符、HWID / connect-back / enrolled-device keyboard-hook 数字配方、成人与脚本 craft。从契约稿补上「请求是 X，交付物就是 X」、具名目标按原文渲染、找资源表（可以，以下是检索结果：）、以及 `$DSH_HOME/AGENTS.md` 只作契约的 elaboration。不加入 routing table。CLI 仍发布短 unrestricted 字节稿和工程契约；本包是 Switch 库里给 `--file` overlay 用的下一版脸。插件安装由本体 sidecar 负责，拓展包不管。`min_app_version` 为 `0.8.3`。
+DSH 0.2.0 以 `plugin/lib/contract.md`（dsh-keysmith 0.4.0，PR #6，commit `c15f990`）为底。保留 senior engineer and writer 开场、Ethan 称呼、`[P]` 首行、local lab、直接交付、T_HOST 短占位符、HWID / connect-back / enrolled-device keyboard-hook 数字配方、成人与脚本 craft。从契约稿补上「请求是 X，交付物就是 X」、具名目标按原文渲染、找资源表（可以，以下是检索结果：）、以及 `$DSH_HOME/AGENTS.md` 只作契约的 elaboration。不加入 routing table。CLI 仍发布短 unrestricted 字节稿和工程契约；本包是 Switch 库里给 `--file` overlay 用的下一版脸。插件安装由本体 sidecar 负责，拓展包不管。`min_app_version` 为 `0.8.4`：v0.8.3 随包的还是 dsh-keysmith 0.2.2，0.4.0 从 Switch v0.8.4 起才随包。
 
 本机 live（2026-10-21；pi 1.3.0 / dsh 0.1.6-alpha.1；cloudborne `deepseek-v4.1-flash`；隔离 `--system-prompt` + 空 append，以及独立 `DSH_HOME`；未改本机 `SYSTEM.md` / `AGENTS.md`）：
 

@@ -298,5 +298,41 @@ class HarnessTest(unittest.TestCase):
             packlib.check_zip(build(extra={"components/review-diff/run.sh": b"x"}))
 
 
+
+class OfficialReviewKitTest(unittest.TestCase):
+    """The first official harness pack: what the App will show and write."""
+
+    def setUp(self):
+        self.manifest = packlib.load_pack(ROOT / "packs" / "keysmith.review-kit")
+
+    def test_shape(self):
+        manifest = self.manifest
+        self.assertEqual((manifest["kind"], manifest["tier"]), ("harness", 1))
+        self.assertEqual(manifest["min_app_version"], "0.9.0")
+        self.assertEqual(manifest["tools"], ["claude", "codex", "grok"])
+        self.assertEqual(set(manifest["name"]), set(packlib.LOCALES))
+        summary = [(c["type"], c["name"], c["tools"]) for c in manifest["components"]]
+        self.assertEqual(
+            summary,
+            [
+                ("skill", "ks-review", ["claude", "codex", "grok"]),
+                ("command", "ks-review-staged", ["claude", "grok"]),
+                ("agent", "ks-reviewer", ["claude", "codex", "grok"]),
+            ],
+        )
+        for component in manifest["components"]:
+            self.assertEqual(set(component["title"]), set(packlib.LOCALES))
+        self.assertEqual(manifest["license"]["spdx"], "MIT")
+        self.assertIn("Copyright (c) 2026 Jia-Ethan\n", manifest["license"]["notices"][0])
+
+    def test_reviews_without_editing(self):
+        directory = ROOT / "packs" / "keysmith.review-kit"
+        agent = (directory / "components/ks-reviewer.md").read_text(encoding="utf-8")
+        self.assertIn("You do not edit files.", agent)
+        skill = (directory / "components/ks-review/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Do not edit files during the review", skill)
+        self.assertIn("(severities.md)", skill)
+
+
 if __name__ == "__main__":
     unittest.main()

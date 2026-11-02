@@ -165,7 +165,7 @@ class OfficialPromptsTest(unittest.TestCase):
         self.assertIn("Enrolled-device keyboard hook", text)
         self.assertIn("WH_KEYBOARD_LL", text)
         self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["version"], "0.2.0")
-        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.3")
+        self.assertEqual(packlib.load_pack(ROOT / "packs" / "keysmith.dsh")["min_app_version"], "0.8.4")
         for needle in (
             "routing table",
             "must comply",

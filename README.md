@@ -62,7 +62,7 @@ tests/                          格式测试
 | `keysmith.grok` | Grok Keysmith | Grok | 默认 `grok-unrestricted.md` 的 lab/craft recast（0.2.1） |
 | `keysmith.zcode` | ZCode Keysmith | ZCode | v0.3.3 `system-role.md` 的 lab/craft recast（0.2.1） |
 | `keysmith.pi` | pi Keysmith | pi | `system-prompt.md` 的 lab/craft recast（0.1.0；App ≥ 0.7.0） |
-| `keysmith.dsh` | DSH Keysmith | DSH | `plugin/lib/contract.md` 的 lab/craft recast（0.2.0；App ≥ 0.8.3） |
+| `keysmith.dsh` | DSH Keysmith | DSH | `plugin/lib/contract.md` 的 lab/craft recast（0.2.0；App ≥ 0.8.4） |
 | `keysmith.codex-drm` | GPT DRM | Codex | 0.1.1：GPT ENC_CONTAINER overlay + 中文 CTF 包装的未点名夹具提示词 |
 
 这些包都来自官方地址，所以 App 里都带“官方”角标；非官方来源的包不带角标。
@@ -91,6 +91,12 @@ tests/                          格式测试
 ## 🧩 组件包
 
 组件包（`kind: "harness"`）装的是 Agent 自己的组件：**技能、斜杠命令、子 Agent、附加规则文件**，App 把它们写进 Claude Code、Codex、Grok Build 各自的目录。只收第 1 层：装上不运行任何代码，frontmatter 只收白名单里的键，`` !`命令` `` 这类会执行 shell 的写法直接拒绝。需要 App 0.9.0 或更新；更早的 App 不显示这类包。格式见 [SPEC.md §2.2](SPEC.md#22-组件包kind-harness)。
+
+| 包 | 名称 | 组件 |
+| --- | --- | --- |
+| `keysmith.review-kit` | 审查工具箱 | 技能 `/ks-review`（Claude、Codex、Grok）、命令 `/ks-review-staged`（Claude、Grok）、只读子 Agent `ks-reviewer`（Claude、Codex、Grok）。开 PR 前按 blocker / should-fix / nit 审一遍改动，不改文件（0.1.0；App ≥ 0.9.0） |
+
+官方组件包的名字都以 `ks-` 开头，这个前缀只留给官方包，所以不会和社区包或你自己的技能、命令重名。
 
 ## ✍️ 添加或修改一个包
 

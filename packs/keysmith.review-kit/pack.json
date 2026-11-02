@@ -1,0 +1,97 @@
+{
+  "components": [
+    {
+      "files": [
+        {
+          "path": "components/ks-review/SKILL.md",
+          "sha256": "afa83d385789da762c112ab4cf38873d01e221386a462c0adf57ea581de88db7"
+        },
+        {
+          "path": "components/ks-review/severities.md",
+          "sha256": "3c731622632c5dbce00b5f5de851bdf23eb7aea467307dede59278debc8b41a1"
+        }
+      ],
+      "id": "ks-review",
+      "name": "ks-review",
+      "title": {
+        "en": "Review before the PR",
+        "zh-CN": "开 PR 前审一遍",
+        "zh-TW": "開 PR 前審一遍"
+      },
+      "tools": [
+        "claude",
+        "codex",
+        "grok"
+      ],
+      "type": "skill"
+    },
+    {
+      "files": [
+        {
+          "path": "components/ks-review-staged.md",
+          "sha256": "75978f9d86820029e16f22f67e3d3efb725c8cc2154ce93c8449c2d69807d3bd"
+        }
+      ],
+      "id": "ks-review-staged",
+      "name": "ks-review-staged",
+      "title": {
+        "en": "Review the staged change",
+        "zh-CN": "审查暂存的改动",
+        "zh-TW": "審查暫存的改動"
+      },
+      "tools": [
+        "claude",
+        "grok"
+      ],
+      "type": "command"
+    },
+    {
+      "files": [
+        {
+          "path": "components/ks-reviewer.md",
+          "sha256": "044175a51d5f5f2ddb0a416c7bf2f29a65022901d461227ef7c84613b8cb0e37"
+        }
+      ],
+      "id": "ks-reviewer",
+      "name": "ks-reviewer",
+      "title": {
+        "en": "Read-only reviewer",
+        "zh-CN": "只读审查员",
+        "zh-TW": "唯讀審查員"
+      },
+      "tools": [
+        "claude",
+        "codex",
+        "grok"
+      ],
+      "type": "agent"
+    }
+  ],
+  "description": {
+    "en": "Review a change before the PR: a skill, a slash command and a read-only reviewer subagent for Claude Code, Codex and Grok Build.",
+    "zh-CN": "开 PR 前审一遍改动：一个技能、一个斜杠命令、一个只读的审查子 Agent，适用于 Claude Code、Codex 和 Grok Build。",
+    "zh-TW": "開 PR 前審一遍改動：一個技能、一個斜線命令、一個唯讀的審查子 Agent，適用於 Claude Code、Codex 和 Grok Build。"
+  },
+  "id": "keysmith.review-kit",
+  "kind": "harness",
+  "license": {
+    "notices": [
+      "MIT License\n\nCopyright (c) 2026 Jia-Ethan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    ],
+    "spdx": "MIT"
+  },
+  "min_app_version": "0.9.0",
+  "name": {
+    "en": "Review kit",
+    "zh-CN": "审查工具箱",
+    "zh-TW": "審查工具箱"
+  },
+  "schema": 1,
+  "tier": 1,
+  "tools": [
+    "claude",
+    "codex",
+    "grok"
+  ],
+  "version": "0.1.0"
+}

@@ -11,6 +11,7 @@
 [![Latest snapshot](https://img.shields.io/github/v/release/Jia-Ethan/keysmith-switch-extensions?label=%E6%9C%80%E6%96%B0%E5%BF%AB%E7%85%A7&color=C8643B&style=flat-square)](https://github.com/Jia-Ethan/keysmith-switch-extensions/releases/latest)
 [![Schema 1](https://img.shields.io/badge/schema-1-555?style=flat-square)](SPEC.md)
 [![Data only](https://img.shields.io/badge/%E5%8F%AA%E5%90%AB%E6%95%B0%E6%8D%AE-%E6%97%A0%E5%8F%AF%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81-2E7D5B?style=flat-square)](#-安全模型)
+[![Telegram](https://img.shields.io/badge/Telegram-%E4%BA%A4%E6%B5%81%E7%BE%A4-26A5E4?style=flat-square&logo=telegram&logoColor=white)](https://t.me/+xBqLYA65JPU1NjFk)
 
 [**安全模型**](#-安全模型) · [**目录结构**](#-目录结构) · [**添加一个包**](#-添加或修改一个包) · [**发布**](#-发布) · [**格式规范**](SPEC.md)
 
@@ -135,6 +136,10 @@ python3 scripts/build.py --out dist
 
 > [!TIP]
 > 建议（可选）：在仓库 Settings → Environments → `production` 中勾选 Required reviewers 并加上自己，这样每次发布都需要你点一下批准。不设置也能发布，但任何有写权限的账号都能发布。
+
+## 💬 交流
+
+交流群：[Telegram](https://t.me/+xBqLYA65JPU1NjFk)
 
 ## 📄 许可
 
